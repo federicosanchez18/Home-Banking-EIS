@@ -33,4 +33,14 @@ describe('POST /user/', () => {
                 return done();
             }).catch((err) => done(err));
     });
+
+    it('Fail, user requires dni', (done) => {
+        request(app).post('/user/')
+            .send({ name: "Test", password: "asd1234", email: "test@email.com" })
+            .then((res) => {
+                const body = res.body;
+                expect(body.message).to.equal('User validation failed: dni: The DNI is required');
+                return done();
+            }).catch((err) => done(err));
+    });
 })
