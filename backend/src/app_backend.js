@@ -10,6 +10,6 @@ if (process.env.NODE_ENV !== 'test'){
 app.use(express.json());
 
 // Routes
-//app.use('/user', require('./routes/user_routes'));
+app.use('/user', require('./routes/user_routes'));
 
 module.exports = app;
