@@ -31,4 +31,16 @@ module.exports = class UserController {
             return ErrorHandler.handleError(res, new ErrorValidation(error.message));
         }
     }
+
+    static async updateUser(req, res) {
+        try {
+            const user = await User.findOneAndUpdate({id: req.params.id}, {$set: req.body}, {new: true});
+            if (!user) {
+                return ErrorHandler.handleError(res, new ErrorToFindUser());
+            }
+            res.json(user);
+        } catch(error) {
+            return ErrorHandler.handleError(res, new ErrorValidation(error.message));
+        }
+    }
 }

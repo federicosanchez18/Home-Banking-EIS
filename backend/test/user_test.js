@@ -73,3 +73,16 @@ describe('POST /user/login', () => {
             }).catch((err) => done(err));
     });
 });
+
+describe('PUT /user/1', () => {
+
+    it('Ok, update username Test to Update', (done) => {
+        request(app).put('/user/1')
+            .send({ name: 'Update' })
+            .then((res) => {
+                const body = res.body;
+                expect(body).to.have.property('name').to.be.equal('Update');
+                return done();
+            }).catch((err) => done(err));
+    });
+});
