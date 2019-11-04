@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
+const Bcrypt = require('bcryptjs');
 const { Schema } = mongoose;
 
 const UserSchema = new Schema({
@@ -32,6 +33,23 @@ const UserSchema = new Schema({
         default: Date.now
     }
 });
+
+UserSchema.pre('save', async function(next) {
+    now = new Date();
+    if(!this.date){
+        this.date = now;
+    }
+    if(!this.isModified('password')){
+        return next();
+    }
+    this.password = await Bcrypt.hash(this.password, 10);
+    next();
+});
+
+UserSchema.methods.comparePassword = async function(plainText) {
+    const pass = await Bcrypt.compare(plainText, this.password);
+    return pass;
+}
 
 UserSchema.plugin(AutoIncrement, {id: 'order_seq', inc_field: 'id'});
 module.exports = mongoose.model('User', UserSchema);
