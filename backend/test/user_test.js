@@ -86,3 +86,15 @@ describe('PUT /user/1', () => {
             }).catch((err) => done(err));
     });
 });
+
+describe('DELETE /user/1', () => {
+
+    it('Ok, deleted a user id 1', (done) => {
+        request(app).delete('/user/1')
+            .then((res) => {
+                const body = res.body;
+                expect(body.message).to.equal('35242425 is deleted');
+                return done();
+            }).catch((err) => done(err));
+    });
+});

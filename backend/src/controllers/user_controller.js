@@ -43,4 +43,16 @@ module.exports = class UserController {
             return ErrorHandler.handleError(res, new ErrorValidation(error.message));
         }
     }
+
+    static async deleteUser(req, res){
+        try {
+            const user = await User.findOneAndDelete({id: req.params.id});
+            if (!user) {
+                return ErrorHandler.handleError(res, new ErrorToFindUser());
+            }
+            res.json({message: `${user.dni} is deleted`});
+        } catch(error) {
+            return ErrorHandler.handleError(res, new ErrorValidation(error.message));
+        }
+    }
 }
