@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/JonMaia/Home-Banking-EIS.svg?branch=master)](https://travis-ci.com/JonMaia/Home-Banking-EIS)
 # home-banking
 
 > A Vue.js project
