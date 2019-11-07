@@ -55,4 +55,16 @@ module.exports = class UserController {
             return ErrorHandler.handleError(res, new ErrorValidation(error.message));
         }
     }
+
+    static async getUser(req, res) {
+        try {
+            const user = await User.findOne({id: req.params.id});
+            if (!user) {
+                return ErrorHandler.handleError(res, new ErrorToFindUser());
+            }
+            res.send(user);
+        } catch(error) {
+            return ErrorHandler.handleError(res, new ErrorValidation(error.message));
+        }
+    }
 }
