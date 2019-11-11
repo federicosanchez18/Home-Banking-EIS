@@ -4,4 +4,4 @@ node_js: "12.11.1"
 
 install: npm install
 
-script: npm run test-backend
+script: npm run test
