@@ -4,3 +4,6 @@
 /*.js
 /test/unit/coverage/
 /backend
+/test/
+/static/
+/src/
