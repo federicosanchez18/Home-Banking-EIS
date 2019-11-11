@@ -8,6 +8,7 @@
 ## Estimación de tareas del siguiente sprint
 - Como usuario quiero registrarme**5**
 - Como usuario quiero logguearme **5**
+- Como usuario quiero cambiar mi clave **3**
 
 
 ## Retrospectiva

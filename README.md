@@ -29,3 +29,13 @@ npm test
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+
+## Backlog
+https://blattanzio.backlog.com/find/HB_EIS?condition.projectId=27395&condition.statusId=1&condition.statusId=2&condition.statusId=3&condition.sort=UPDATED&condition.order=false&condition.simpleSearch=true&condition.allOver=false&condition.offset=0
+
+## Planning Semanal
+https://trello.com/b/tevlmzyx/homebanking-u4s-ies
+
+
+
