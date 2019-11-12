@@ -18,14 +18,16 @@ module.exports = class UserController {
 
     static async loginUser(req, res) {
         try {
-            const user = await User.findOne({ email: req.body.email }).exec();
+            const username = req.body.username;
+            const email = req.body.email;
+            const user = await User.findOne({$or:[{username: username}, {email: email}]}).exec();
             if(!user){
                 return ErrorHandler.handleError(res, new ErrorToFindUser());
             }
             if(!await user.comparePassword(req.body.password)){
                 return ErrorHandler.handleError(res, new ErrorPasswordInvalid());
             } else {
-                res.json({message: `The user ${user.name} is login correctly`});
+                res.json({message: `The user ${user.username} is login correctly`});
             }
         } catch(error) {
             return ErrorHandler.handleError(res, new ErrorValidation(error.message));

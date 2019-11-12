@@ -16,9 +16,9 @@ const UserSchema = new Schema({
         },
         required: [true, 'The DNI is required']
     },
-    name: {
+    username: {
         type: String,
-        required: [true, 'The name is required']
+        required: [true, 'The username is required']
     },
     password: {
         type: String,
@@ -26,6 +26,9 @@ const UserSchema = new Schema({
     },
     email: {
         type: String,
+        validate: function(v) {
+            return /^[^@\s]+@[^@\.\s]+(\.[^@\.\s]+)+$/.test(v);
+        },
         required: [true, 'The email is required']
     },
     date: {
