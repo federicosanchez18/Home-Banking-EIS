@@ -1,21 +1,50 @@
 <template>
-  <div class="align-left">
-      <span id="nombre">Bienvenido/a</span>
-      <button class="links" >Extraer dinero</button>
-      <button class="links" >Depositar dinero</button>
-      <button class="links" >Pagar servicios</button>
-      <button class="links" >Transferir dinero</button>
-      <button class="links" >Cambiar límite de extracción</button>
+  <div class="HomeBanking">
+    <div class="header">
+      <img class="logo" src="../../img/logo.png">
+      <div class="align-left">
+        <span id="nombre">Bienvenido/a</span>
+        <img class="avatar" src="../../img/avatar.svg"/>
+      </div>
+    </div>
+    <div class="white-container">
+      <div class="menu-container">
+        <h1 class="tu-cuenta">Tu cuenta</h1>
+        <button class="links" >Extraer dinero</button>
+        <button class="links" >Depositar dinero</button>
+        <button class="links" >Pagar servicios</button>
+        <button class="links" >Transferir dinero</button>
+        <button class="links" >Cambiar límite de extracción</button>
+      </div>
+      <div class="green-container">
+        <div class="cuenta-info">
+          <p>Saldo en tu cuenta</p>
+          <h3 id="saldo-cuenta">$ {{dineroDisponible}}</h3>
+          <p id="limite-extraccion">Tu límite de extracción es: {{limiteExtraccion}} </p>
+        </div>
+      </div>
+    </div>
   </div>
+
+
 </template>
 
 <script>
 export default {
-  name: 'HomeBanking'
+    name: 'HomeBanking',
+    data() {
+        return {
+            input: {
+                dineroDisponible: 10000,
+                limiteExtraccion: 10,
+            }
+        }
+    }
 }
-</script>
 
-<style scoped>
+
+</script>
+<style >
   body {
     margin: 0;
 
@@ -26,7 +55,6 @@ export default {
 
   .avatar {
     display: inline-block;
-
     vertical-align: text-bottom;
   }
 
@@ -34,7 +62,6 @@ export default {
     display: inline-block;
     width: 200px;
     height: 50px;
-
     text-align: left;
     vertical-align: text-bottom;
   }

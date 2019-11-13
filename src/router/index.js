@@ -10,7 +10,7 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/cambioClave',
+      path: '/changePassword',
       name: 'changePassword',
       component: changePassword
     },
@@ -21,7 +21,7 @@ export default new Router({
     },
     {
       path: '/session',
-      name: 'HomeBaking',
+      name: 'HomeBanking',
       component: HomeBanking
     },
     {

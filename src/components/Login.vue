@@ -1,6 +1,7 @@
 <template>
   <div id="login">
-    <h1>Login</h1>
+    <h1>Bienvenidos a Home Banking EIS</h1>
+    <h2>Ingresá tus datos para operar</h2>
     <label>
       <input type="text" name="username" v-model="input.username" placeholder="Username" />
     </label>
@@ -9,6 +10,7 @@
     </label>
     <button type="button" v-on:click="login()">Login</button>
     <button type="button" v-on:click="userRegister()">Register</button>
+    <button type="button" v-on:click="changePassword()">Cambiar Clave</button>
   </div>
 </template>
 
@@ -40,6 +42,9 @@ export default {
     },
     userRegister () {
       this.$router.replace({ name: 'Register' })
+    },
+    changePassword() {
+     this.$router.replace({name : 'changePassword'})
     }
   }
 }
@@ -49,9 +54,19 @@ export default {
   #login {
     width: 500px;
     border: 1px solid #CCCCCC;
-    background-color: #2cc197;
+    background-color: #111111;
     margin: auto;
     margin-top: 200px;
     padding: 20px;
+    color : #ffffff;
   }
+
+  button{
+
+    border: 2px;
+    margin: auto;
+    height: 25px;
+    margin-left: 10px;
+    margin-bottom: 15px;}
+
 </style>
