@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
+require('mongoose-currency').loadType(mongoose);
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 const Bcrypt = require('bcryptjs');
 const { Schema } = mongoose;
+const Currency = mongoose.Types.Currency;  
 
 const UserSchema = new Schema({
     id: {
@@ -30,6 +32,10 @@ const UserSchema = new Schema({
             return /^[^@\s]+@[^@\.\s]+(\.[^@\.\s]+)+$/.test(v);
         },
         required: [true, 'The email is required']
+    },
+    amount: {
+        type: Currency,
+        default: 0,
     },
     date: {
         type: Date,
