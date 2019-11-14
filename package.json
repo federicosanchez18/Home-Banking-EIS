@@ -24,7 +24,8 @@
     "mongoose-sequence": "5.2.2",
     "morgan": "1.9.1",
     "vue": "2.5.2",
-    "vue-router": "3.0.1"
+    "vue-router": "3.0.1",
+    "vue-sweetalert2": "^2.1.5"
   },
   "devDependencies": {
     "autoprefixer": "7.1.2",

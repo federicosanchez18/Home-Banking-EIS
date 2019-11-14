@@ -3,45 +3,55 @@
         <h1 id = "app">Register</h1>
         <ul>
           <li><input v-model="dni" placeholder="DNI"></li>
-          <li><input v-model="name" type="text" placeholder="Name"></li>
+          <li><input v-model="username" type="text" placeholder="Name"></li>
           <li><input v-model="email" placeholder="Email"></li>
           <li><input v-model="password" placeholder="Password"></li>
-          <li><input v-model="confirmpw" placeholder="Confirm Password"></li>
         </ul>
-        <button type="button">Create Account</button>
+        <button type="button" v-on:click="register()" >Create Account</button>
         <button type="button" v-on:click="goBack()">Go Back</button>
     </div>
 </template>
 
 <script>
-// import RegisterService from '../ApiService'
+
+
+class User {
+    constructor(dni, email, username, password) {
+        this.dni = dni;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+    }
+
+
+}
 
 export default {
   name: 'Register',
   data () {
     return {
-      input: {
-        dni: '',
-        name: '',
-        email: '',
-        password: '',
-        confirmpw: ''
-      }
+      user : new User(),
     }
   },
   methods: {
-    /* async userRegistration  () {
-      // eslint-disable-next-line eqeqeq
-      if (this.input.password == this.input.confirmpw) {
-        await RegisterService.createUser({
-          userDni: this.input.dni,
-          userName: this.input.name,
-          userPassword: this.input.password,
-          userEmail: this.input.email
-        })
-      }
-    }, */
-    goBack () {
+      register() {
+          fetch('/api/user/register', {
+              method: 'POST',
+              body: JSON.stringify(this.user),
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-type': 'application/json'
+              }
+          })
+              .then(res => res.json())
+              .then(data => {
+                  this.getUsers();
+              })
+              .catch(err => console.log(err));
+          this.user = new User();
+      },
+
+      goBack () {
       this.$router.replace({ name: 'Login' })
     }
   }
