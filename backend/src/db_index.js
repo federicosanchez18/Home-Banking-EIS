@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Mockgoose = require('mockgoose').Mockgoose;
 const DB_URI = 'mongodb://localhost/homebankingu4s';
+const User = require('../src/models/user');
 
 function connect() {
     return new Promise((resolve, reject) => {
@@ -19,6 +20,10 @@ function connect() {
             mongoose.connect(DB_URI, 
                 {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false})
                 .then((res, err) => {
+                    const userBot1 = new User({dni: 12345678, username: 'bot1', password: 'bot1234', email: 'bot1@email.com'});
+                    const userBot2 = new User({dni: 12345679, username: 'bot2', password: 'bot1234', email: 'bot2@email.com'});
+                    userBot1.save();
+                    userBot2.save();
                     if (err) return reject(err);
                     resolve();
                 });

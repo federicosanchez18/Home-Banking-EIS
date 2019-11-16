@@ -6,16 +6,14 @@ const User = require('../src/models/user');
 const app = require('../src/app_backend');
 const conn = require('../src/db_index');
 
-before((done) => {
-    conn.connect()
-        .then(() => done())
-        .catch((err) => done(err));
+before(async function() {
+    await conn.connect()
+              .catch((err) => console.log(err));
 });
 
-after((done) => {
-    conn.close()
-        .then(() => done())
-        .catch((err) => done(err));
+after(async function() {
+    await conn.close()
+              .catch((err) => console.log(err));
 });
 
 describe('POST /user/register', () => {
