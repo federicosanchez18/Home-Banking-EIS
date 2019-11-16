@@ -20,8 +20,8 @@ describe('API Rest', function() {
     
     describe('POST /user/register', () => {
     
-        it('Ok, creating a new user', (done) => {
-            request(app).post('/user/register')
+        it('Ok, creating a new user', async function() {
+            await request(app).post('/user/register')
                 .send({ dni: 35242425, username: 'Test', password: 'asd1234', email: 'test@email.com'})
                 .then((res) => {
                     const body = res.body;
@@ -31,8 +31,8 @@ describe('API Rest', function() {
                     expect(body).to.contain.property('password');
                     expect(body).to.contain.property('email');
                     expect(body).to.contain.property('date');
-                    return done();
-                }).catch((err) => done(err));
+                    //return done();
+                }).catch((err) => console.log(err));
         });
     
         it('Fail, user requires dni', (done) => {
