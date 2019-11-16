@@ -18,7 +18,7 @@ describe('API Rest', function() {
                   .catch((err) => console.log(err));
     });
     
-    describe('POST /user/register', () => {
+    describe('POST /user/register', async function() {
     
         it('Ok, creating a new user', async function() {
             await request(app).post('/user/register')
@@ -35,14 +35,14 @@ describe('API Rest', function() {
                 }).catch((err) => console.log(err));
         });
     
-        it('Fail, user requires dni', (done) => {
-            request(app).post('/user/register')
+        it('Fail, user requires dni', async function() {
+            await request(app).post('/user/register')
                 .send({ username: "Test", password: "asd1234", email: "test@email.com" })
                 .then((res) => {
                     const body = res.body;
                     expect(body.message).to.equal('User validation failed: dni: The DNI is required');
-                    return done();
-                }).catch((err) => done(err));
+                    //return done();
+                }).catch((err) => console.log(err));
         });
     });
     
