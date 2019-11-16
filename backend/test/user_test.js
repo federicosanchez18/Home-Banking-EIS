@@ -8,12 +8,12 @@ const conn = require('../src/db_index');
 
 describe('API Rest', function() {
 
-    before(async function() {
+    beforeEach(async function() {
         await conn.connect()
                   .catch((err) => console.log(err));
     });
     
-    after(async function() {
+    afterEach(async function() {
         await conn.close()
                   .catch((err) => console.log(err));
     });
