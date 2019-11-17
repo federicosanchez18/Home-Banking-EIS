@@ -21,7 +21,7 @@ describe('API Rest', function() {
     });
     
     describe('POST /user/register', (done) => {
-        this.timeout(6000);
+        
         it('Ok, creating a new user', (done) => {
             request(app).post('/user/register')
                 .send({ dni: 35242425, username: 'Test', password: 'asd1234', email: 'test@email.com'})
@@ -35,7 +35,7 @@ describe('API Rest', function() {
                     expect(body).to.contain.property('date');
                     return done();
                 }).catch((err) => done(err));
-        });
+        }).timeout(5000);
     
         it('Fail, user requires dni', (done) => {
             request(app).post('/user/register')
@@ -45,11 +45,11 @@ describe('API Rest', function() {
                     expect(body.message).to.equal('User validation failed: dni: The DNI is required');
                     return done();
                 }).catch((err) => done(err));
-        });
+        }).timeout(5000);
     });
     
     describe('POST /user/login', () => {
-        this.timeout(6000);
+       
         beforeEach( async function() {
             const userLogin = new User({dni: 32323232, username: 'Login', password: 'login1234', email: 'login@email.com'});
             await userLogin.save();
@@ -63,7 +63,7 @@ describe('API Rest', function() {
                     expect(body.message).to.equal(`The user Login is login correctly`);
                     return done();
                 }).catch((err) => done(err));
-        });
+        }).timeout(5000);
     
         it('Ok, login a user with username', (done) => {
             request(app).post('/user/login')
@@ -73,7 +73,7 @@ describe('API Rest', function() {
                     expect(body.message).to.equal(`The user Login is login correctly`);
                     return done();
                 }).catch((err) => done(err));
-        });
+        }).timeout(5000);
     
         it('Fail, the user password does not correctly', (done) => {
             request(app).post('/user/login')
@@ -83,11 +83,11 @@ describe('API Rest', function() {
                     expect(body.message).to.equal('This password is invalid');
                     return done();
                 }).catch((err) => done(err));
-        });
+        }).timeout(5000);
     });
     
     describe('PUT /user/1', () => {
-        this.timeout(6000);
+       
         it('Ok, update username Test to Update', (done) => {
             request(app).put('/user/1')
                 .send({ username: 'Update' })
@@ -97,10 +97,10 @@ describe('API Rest', function() {
                     return done();
                 }).catch((err) => done(err));
         });
-    });
+    }).timeout(5000);
     
     describe('DELETE /user/1', () => {
-        this.timeout(6000);
+        
         it('Ok, deleted a user id 1', (done) => {
             request(app).delete('/user/1')
                 .then((res) => {
@@ -109,6 +109,6 @@ describe('API Rest', function() {
                     return done();
                 }).catch((err) => done(err));
         });
-    });
+    }).timeout(5000);
 })
 
