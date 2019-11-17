@@ -61,6 +61,19 @@ describe('API Rest', () => {
         });
     });
 
+    describe('POST /user/extraction/1', () => {
+       
+        it('Ok, extract $250 to the amount of the user', (done) => {
+            request(app).post('/user/extraction/1')
+                .send({ amount: 250 })
+                .then((res) => {
+                    const body = res.body;
+                    expect(body).to.have.property('amount').to.be.equal(100);
+                    return done();
+                }).catch((err) => done(err));
+        });
+    });
+
     describe('POST /user/login', () => {
        
         beforeEach( async function() {

@@ -8,5 +8,6 @@ router.route('/:id').get(UserController.getUser);
 router.route('/:id').put(UserController.updateUser);
 router.route('/:id').delete(UserController.deleteUser);
 router.route('/deposit/:id').post(UserController.toDepositAmount);
+router.route('/extraction/:id').post(UserController.toExtractAmount);
 
 module.exports = router;
