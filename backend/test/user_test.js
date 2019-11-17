@@ -35,7 +35,7 @@ describe('API Rest', () => {
                     expect(body).to.contain.property('date');
                     return done();
                 }).catch((err) => done(err));
-        });
+        }).timeout(1000*60*20);
     
         it('Fail, user requires dni', (done) => {
             request(app).post('/user/register')
@@ -45,7 +45,7 @@ describe('API Rest', () => {
                     expect(body.message).to.equal('User validation failed: dni: The DNI is required');
                     return done();
                 }).catch((err) => done(err));
-        });
+        }).timeout(1000*60*20);
     });
     
     describe('POST /user/deposit/1', () => {
@@ -58,7 +58,7 @@ describe('API Rest', () => {
                     expect(body).to.have.property('amount').to.be.equal(350);
                     return done();
                 }).catch((err) => done(err));
-        });
+        }).timeout(1000*60*20);
     });
 
     describe('POST /user/extraction/1', () => {
@@ -71,7 +71,7 @@ describe('API Rest', () => {
                     expect(body).to.have.property('amount').to.be.equal(100);
                     return done();
                 }).catch((err) => done(err));
-        });
+        }).timeout(1000*60*20);
     });
 
     describe('POST /user/login', () => {
@@ -89,7 +89,7 @@ describe('API Rest', () => {
                     expect(body.message).to.equal(`The user Login is login correctly`);
                     return done();
                 }).catch((err) => done(err));
-        });
+        }).timeout(1000*60*20);
     
         it('Ok, login a user with username', (done) => {
             request(app).post('/user/login')
@@ -99,7 +99,7 @@ describe('API Rest', () => {
                     expect(body.message).to.equal(`The user Login is login correctly`);
                     return done();
                 }).catch((err) => done(err));
-        });
+        }).timeout(1000*60*20);
     
         it('Fail, the user password does not correctly', (done) => {
             request(app).post('/user/login')
@@ -109,7 +109,7 @@ describe('API Rest', () => {
                     expect(body.message).to.equal('This password is invalid');
                     return done();
                 }).catch((err) => done(err));
-        });
+        }).timeout(1000*60*20);
     });
     
     describe('PUT /user/1', () => {
@@ -122,7 +122,7 @@ describe('API Rest', () => {
                     expect(body).to.have.property('username').to.be.equal('Update');
                     return done();
                 }).catch((err) => done(err));
-        });
+        }).timeout(1000*60*20);
     });
     
     describe('DELETE /user/1', () => {
@@ -134,7 +134,7 @@ describe('API Rest', () => {
                     expect(body.message).to.equal('35242425 is deleted');
                     return done();
                 }).catch((err) => done(err));
-        });
+        }).timeout(1000*60*20);
     });
 })
 
