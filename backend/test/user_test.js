@@ -6,7 +6,7 @@ const User = require('../src/models/user');
 const app = require('../src/app_backend');
 const conn = require('../src/db_index');
 
-describe('API Rest', function() {
+describe('API Rest', () => {
 
     before((done) => {
         conn.connect()
@@ -20,7 +20,7 @@ describe('API Rest', function() {
             .catch((err) => done(err));
     });
     
-    describe('POST /user/register', (done) => {
+    describe('POST /user/register', () => {
         
         it('Ok, creating a new user', (done) => {
             request(app).post('/user/register')
@@ -35,7 +35,7 @@ describe('API Rest', function() {
                     expect(body).to.contain.property('date');
                     return done();
                 }).catch((err) => done(err));
-        }).timeout(5000);
+        });
     
         it('Fail, user requires dni', (done) => {
             request(app).post('/user/register')
@@ -45,7 +45,7 @@ describe('API Rest', function() {
                     expect(body.message).to.equal('User validation failed: dni: The DNI is required');
                     return done();
                 }).catch((err) => done(err));
-        }).timeout(5000);
+        });
     });
     
     describe('POST /user/login', () => {
@@ -63,7 +63,7 @@ describe('API Rest', function() {
                     expect(body.message).to.equal(`The user Login is login correctly`);
                     return done();
                 }).catch((err) => done(err));
-        }).timeout(5000);
+        });
     
         it('Ok, login a user with username', (done) => {
             request(app).post('/user/login')
@@ -73,7 +73,7 @@ describe('API Rest', function() {
                     expect(body.message).to.equal(`The user Login is login correctly`);
                     return done();
                 }).catch((err) => done(err));
-        }).timeout(5000);
+        });
     
         it('Fail, the user password does not correctly', (done) => {
             request(app).post('/user/login')
@@ -83,7 +83,7 @@ describe('API Rest', function() {
                     expect(body.message).to.equal('This password is invalid');
                     return done();
                 }).catch((err) => done(err));
-        }).timeout(5000);
+        });
     });
     
     describe('PUT /user/1', () => {
@@ -97,7 +97,7 @@ describe('API Rest', function() {
                     return done();
                 }).catch((err) => done(err));
         });
-    }).timeout(5000);
+    });
     
     describe('DELETE /user/1', () => {
         
@@ -109,6 +109,6 @@ describe('API Rest', function() {
                     return done();
                 }).catch((err) => done(err));
         });
-    }).timeout(5000);
+    });
 })
 
