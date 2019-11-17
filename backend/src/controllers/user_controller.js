@@ -69,4 +69,16 @@ module.exports = class UserController {
             return ErrorHandler.handleError(res, new ErrorValidation(error.message));
         }
     }
+    
+    static async toDepositAmount(req, res) {
+        try {
+            const user = await User.findOneAndUpdate({id: req.params.id}, {$inc: {amount: req.body.amount}}, {new: true});
+            if (!user) {
+                return ErrorHandler.handleError(res, new ErrorToFindUser());
+            }
+            res.send(user);
+        } catch (error) {
+            return ErrorHandler.handleError(res, new ErrorValidation(error.message));
+        }
+    }
 }

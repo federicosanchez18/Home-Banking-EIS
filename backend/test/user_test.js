@@ -48,13 +48,26 @@ describe('API Rest', () => {
         });
     });
     
+    describe('POST /user/deposit/1', () => {
+       
+        it('Ok, deposit $350 to the amount of the user', (done) => {
+            request(app).post('/user/deposit/1')
+                .send({ amount: 350 })
+                .then((res) => {
+                    const body = res.body;
+                    expect(body).to.have.property('amount').to.be.equal(350);
+                    return done();
+                }).catch((err) => done(err));
+        });
+    });
+
     describe('POST /user/login', () => {
        
         beforeEach( async function() {
             const userLogin = new User({dni: 32323232, username: 'Login', password: 'login1234', email: 'login@email.com'});
             await userLogin.save();
         });
-    
+        
         it('Ok, login a user with email', (done) => {
             request(app).post('/user/login')
                 .send({ email: 'login@email.com', password: 'login1234'})
