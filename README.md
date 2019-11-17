@@ -1,4 +1,4 @@
-![badge](https://github.com/federicosanchez18/Home-Banking-EIS/workflows/.github/workflows/nodejs.yml/badge.svg)
+![my badge](https://action-badges.now.sh/federicosanchez18/Home-Banking-EIS?workflow=Node-CI)
 # home-banking
 
 > A Vue.js project
