@@ -8,20 +8,22 @@ const conn = require('../src/db_index');
 
 describe('API Rest', function() {
 
-    beforeEach(async function() {
-        await conn.connect()
-                  .catch((err) => console.log(err));
+    before((done) => {
+        conn.connect()
+            .then(() => done())
+            .catch((err) => done(err));
     });
     
-    afterEach(async function() {
-        await conn.close()
-                  .catch((err) => console.log(err));
+    after((done) => {
+        conn.close()
+            .then(() => done())
+            .catch((err) => done(err));
     });
     
-    describe('POST /user/register', async function() {
+    describe('POST /user/register', (done) => {
     
-        it('Ok, creating a new user', async function() {
-            await request(app).post('/user/register')
+        it('Ok, creating a new user', (done) => {
+            request(app).post('/user/register')
                 .send({ dni: 35242425, username: 'Test', password: 'asd1234', email: 'test@email.com'})
                 .then((res) => {
                     const body = res.body;
@@ -31,24 +33,24 @@ describe('API Rest', function() {
                     expect(body).to.contain.property('password');
                     expect(body).to.contain.property('email');
                     expect(body).to.contain.property('date');
-                    //return done();
-                }).catch((err) => console.log(err));
+                    return done();
+                }).catch((err) => done(err));
         });
     
-        it('Fail, user requires dni', async function() {
-            await request(app).post('/user/register')
+        it('Fail, user requires dni', (done) => {
+            request(app).post('/user/register')
                 .send({ username: "Test", password: "asd1234", email: "test@email.com" })
                 .then((res) => {
                     const body = res.body;
                     expect(body.message).to.equal('User validation failed: dni: The DNI is required');
-                    //return done();
-                }).catch((err) => console.log(err));
+                    return done();
+                }).catch((err) => done(err));
         });
     });
     
     describe('POST /user/login', () => {
     
-        beforeEach(async function() {
+        beforeEach( async function() {
             const userLogin = new User({dni: 32323232, username: 'Login', password: 'login1234', email: 'login@email.com'});
             await userLogin.save();
         });
