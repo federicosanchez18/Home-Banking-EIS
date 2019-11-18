@@ -36,15 +36,5 @@ export default {
 </script>
 
 <style>
-  body {
-    background-color: #2cc197;
-  }
-  h1 {
-    padding: 0;
-    margin-top: 0;
-  }
-  #app {
-    width: 1024px;
-    margin: auto;
-  }
+
 </style>
