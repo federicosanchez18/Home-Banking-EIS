@@ -7,7 +7,8 @@ router.route('/login').post(UserController.loginUser);
 router.route('/:id').get(UserController.getUser);
 router.route('/:id').put(UserController.updateUser);
 router.route('/:id').delete(UserController.deleteUser);
-router.route('/deposit/:id').post(UserController.toDepositAmount);
-router.route('/extraction/:id').post(UserController.toExtractAmount);
+router.route('/deposit/:id').put(UserController.toDepositAmount);
+router.route('/extraction/:id').put(UserController.toExtractAmount);
+router.route('/limit/:id').put(UserController.updateLimit);
 
 module.exports = router;

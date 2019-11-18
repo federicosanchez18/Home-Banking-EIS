@@ -48,10 +48,10 @@ describe('API Rest', () => {
         }).timeout(1000*60*20);
     });
     
-    describe('POST /user/deposit/1', () => {
+    describe('PUT /user/deposit/1', () => {
        
         it('Ok, deposit $150 to the amount of the user', (done) => {
-            request(app).post('/user/deposit/1')
+            request(app).put('/user/deposit/1')
                 .send({ amount: 150 })
                 .then((res) => {
                     const body = res.body;
@@ -61,10 +61,10 @@ describe('API Rest', () => {
         }).timeout(1000*60*20);
     });
 
-    describe('POST /user/extraction/1', () => {
+    describe('PUT /user/extraction/1', () => {
        
         it('Ok, extract $100 to the amount of the user', (done) => {
-            request(app).post('/user/extraction/1')
+            request(app).put('/user/extraction/1')
                 .send({ amount: 100 })
                 .then((res) => {
                     const body = res.body;
@@ -74,11 +74,24 @@ describe('API Rest', () => {
         }).timeout(1000*60*20);
 
         it('Fail, extract $500 to the amount of the user, exceeded limit', (done) => {
-            request(app).post('/user/extraction/1')
+            request(app).put('/user/extraction/1')
                 .send({ amount: 500 })
                 .then((res) => {
                     const body = res.body;
                     expect(body.message).to.equal('You have exceeded the extraction limit');
+                    return done();
+                }).catch((err) => done(err));
+        }).timeout(1000*60*20);
+    });
+
+    describe('PUT /user/limit/1', () => {
+       
+        it('Ok, new limit $150 to extraction', (done) => {
+            request(app).put('/user/limit/1')
+                .send({ limit: 150 })
+                .then((res) => {
+                    const body = res.body;
+                    expect(body).to.have.property('limit').to.be.equal(150);
                     return done();
                 }).catch((err) => done(err));
         }).timeout(1000*60*20);
