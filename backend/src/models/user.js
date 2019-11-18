@@ -36,6 +36,7 @@ const UserSchema = new Schema({
     amount: {
         type: Currency,
         default: 0,
+        min: 0
     },
     date: {
         type: Date,

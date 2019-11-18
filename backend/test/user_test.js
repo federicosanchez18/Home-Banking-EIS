@@ -72,6 +72,16 @@ describe('API Rest', () => {
                     return done();
                 }).catch((err) => done(err));
         }).timeout(1000*60*20);
+
+        it('Fail, extract $500 to the amount of the user', (done) => {
+            request(app).post('/user/extraction/1')
+                .send({ amount: 500 })
+                .then((res) => {
+                    const body = res.body;
+                    expect(body.message).to.equal('The amount dont be negative');
+                    return done();
+                }).catch((err) => done(err));
+        }).timeout(1000*60*20);
     });
 
     describe('POST /user/login', () => {
