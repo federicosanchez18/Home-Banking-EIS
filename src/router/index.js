@@ -4,6 +4,7 @@ import changePassword from '@/components/ChangePassword'
 import Login from '@/components/Login'
 import HomeBanking from '../components/HomeBanking'
 import Register from '../components/Register'
+import Transfer from '../components/Transfer'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/Register',
       name: 'Register',
       component: Register
+    },
+    {
+      path: '/Transfer',
+      name: 'Transfer',
+      component: Transfer
     }
   ]
 })

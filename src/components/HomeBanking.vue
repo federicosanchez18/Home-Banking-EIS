@@ -13,7 +13,7 @@
         <button class="links" >Extraer dinero</button>
         <button class="links" >Depositar dinero</button>
         <button class="links" >Pagar servicios</button>
-        <button class="links" >Transferir dinero</button>
+        <button class="links" v-on:click="transfer()">Transferir dinero</button>
         <button class="links" >Cambiar límite de extracción</button>
       </div>
       <div class="green-container">
@@ -39,8 +39,14 @@ export default {
                 limiteExtraccion: 10,
             }
         }
+    },
+    methods: {
+      transfer () {
+        this.$router.replace({ name: 'Transfer' })
+      }
     }
-}
+  }
+
 
 
 </script>
