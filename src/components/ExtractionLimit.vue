@@ -24,7 +24,7 @@ export default {
   },
   methods:{
     changeLimit(){
-      this.axios.put('http://localhost:3060/user/limit/:' + this.$route.params.id, this.input.amount)
+      this.axios.put('http://localhost:3060/user/limit/' + this.$route.params.id, this.input.amount)
            .then(res =>  this.$router.push({ name: 'HomeBanking', params: { ...res.userUp}}))
            .catch(err => console.log(err.message));
     },
