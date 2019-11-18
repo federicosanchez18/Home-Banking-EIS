@@ -17,7 +17,7 @@ export default {
   name: 'Transfer',
   methods:{
     goBack () {
-    this.$router.replace({ name: 'HomeBanking' })
+    this.$router.push({ name: 'HomeBanking', params: {...this.$route.params} })
     }
   }
 }

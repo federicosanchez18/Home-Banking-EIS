@@ -16,6 +16,7 @@
 
       <b-button type="submit" variant="primary" v-on:click="register()">Registrarse</b-button>
       <b-button type="submit" variant="primary">Cambiar Clave</b-button>
+      <b-button type="submit" variant="secondary" v-on:click="goBack()">Atras</b-button>
     </div>
   </div>
 </template>
@@ -43,7 +44,7 @@ export default {
   },
   methods: {
       register() {
-          this.axios.post('http://localhost:3060/user/register', this.user)
+          this.axios.post('http://localhost:3060/user/register', JSON.stringify(this.user))
            .then(res =>  console.log(res))
            .catch(err => console.log(err.message));
       },

@@ -29,7 +29,7 @@ module.exports = class UserController {
             if(!await user.comparePassword(req.body.password)){
                 return ErrorHandler.handleError(res, new ErrorPasswordInvalid());
             } else {
-                res.send({message: `The user ${user.username} is login correctly`});
+                res.send({message: `The user ${user.username} is login correctly`, loggedUser: user});
             }
         } catch(error) {
             return ErrorHandler.handleError(res, new ErrorValidation(error.message));

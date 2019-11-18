@@ -42,7 +42,7 @@ export default {
     },
     methods: {
       transfer () {
-        this.$router.replace({ name: 'Transfer' })
+        this.$router.push({ name: 'Transfer', params: {...this.$route.params} })
       }
     }
   }
