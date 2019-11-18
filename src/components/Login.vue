@@ -1,17 +1,21 @@
 <template>
   <div id="login">
-    <h1>Bienvenidos a Home Banking EIS</h1>
+    <h1>Bienvenidos </h1>
     <h2>Ingresá tus datos para operar</h2>
-    <label>
-      <input type="text" name="username" v-model="input.username" placeholder="Username" />
-    </label>
-    <label>
-      <input type="password" name="password" v-model="input.password" placeholder="Password" />
-    </label>
-    <button type="button" v-on:click="login()">Login</button>
-    <button type="button" v-on:click="userRegister()">Register</button>
-    <button type="button" v-on:click="changePassword()">Cambiar Clave</button>
-  </div>
+    <div id="labels">
+      <label>Ingrese su Usuario</label>
+      <b-form-input v-model="input.username" placeholder="Ingrese su usuario"></b-form-input>
+      <label>Ingrese su Password</label>
+      <b-form-input v-model="input.password" placeholder="Ingrese su password"></b-form-input>
+    </div>
+      <div id= 'botoncito'>
+      <b-button type="submit"  variant="primary" v-on:click="login()">Login</b-button>
+      <b-button type="submit" variant="primary" v-on:click="userRegister()">Registrarse</b-button>
+      <b-button type="submit" variant="primary">Cambiar Clave</b-button>
+      </div>
+    </div>
+
+
 </template>
 
 <script>
@@ -27,18 +31,17 @@ export default {
   },
   methods: {
     login () {
-      // eslint-disable-next-line eqeqeq
-      if (this.input.username !== '' && this.input.password !== '') {
-        // eslint-disable-next-line eqeqeq
-        if (this.input.username === this.$parent.mockAccount.username && this.input.password === this.$parent.mockAccount.password) {
-          this.$emit('authenticated', true)
-          this.$router.replace({ name: 'HomeBanking' })
-        } else {
-          console.log('The username and / or password is incorrect')
+      fetch('/user/login', {
+        method: 'POST',
+        body: this.input,
+        headers: {
+          'Accept': 'application/json',
+          'Content-type': 'application/json'
         }
-      } else {
-        console.log('A username and password must be present')
-      }
+      })
+        .then(res => res.json())
+        .catch(err => console.log(err));
+      this.user = new User();
     },
     userRegister () {
       this.$router.replace({ name: 'Register' })
@@ -50,23 +53,24 @@ export default {
 }
 </script>
 
-<style scoped>
-  #login {
-    width: 500px;
-    border: 1px solid #CCCCCC;
-    background-color: #111111;
-    margin: auto;
-    margin-top: 200px;
-    padding: 20px;
-    color : #ffffff;
+<style>
+
+  body{
+
+      margin-right: 400px;
+      margin-left: 300px;
+      margin-top: 150px;
+
+
+  }
+  #labels{
+
+    margin-right: 50px;
+    margin-bottom: 50px;
   }
 
-  button{
-
-    border: 2px;
-    margin: auto;
-    height: 25px;
-    margin-left: 10px;
-    margin-bottom: 15px;}
-
+#botoncito{
+  martin-top : 20 px;
+  margin-right: 20px;
+}
 </style>
