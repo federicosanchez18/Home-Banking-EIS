@@ -38,6 +38,10 @@ const UserSchema = new Schema({
         default: 0,
         min: 0
     },
+    limit: {
+        type: Number,
+        default: 200
+    },
     date: {
         type: Date,
         default: Date.now

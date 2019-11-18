@@ -3,7 +3,8 @@ const ErrorHandler = require('../errors_response/error_handler');
 const ErrorToFindUser = require('../errors_response/error_to_find_user');
 const ErrorPasswordInvalid = require('../errors_response/error_password_invalid');
 const ErrorValidation = require('../errors_response/error_validation');
-const AmountDontBeNegative = require('../errors_response/error_amount_dont_be_negative');
+const ErrorAmountDontBeNegative = require('../errors_response/error_amount_dont_be_negative');
+const ErrorSuperateToLimit = require('../errors_response/error_superate_to_limit');
 
 module.exports = class UserController {
 
@@ -90,8 +91,10 @@ module.exports = class UserController {
                 return ErrorHandler.handleError(res, new ErrorToFindUser());
             }
             const result = user.amount - req.body.amount;
-            if (result < 0) {
-                return ErrorHandler.handleError(res, new AmountDontBeNegative());
+            if (req.body.amount > user.limit) {
+                return ErrorHandler.handleError(res, new ErrorSuperateToLimit());
+            } if (result < 0) {
+                return ErrorHandler.handleError(res, new ErrorAmountDontBeNegative());
             } else {
                 const userUp = await User.findOneAndUpdate({id: req.params.id}, {$inc: {amount: -req.body.amount}}, {new: true});
                 res.send(userUp);

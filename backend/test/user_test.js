@@ -50,12 +50,12 @@ describe('API Rest', () => {
     
     describe('POST /user/deposit/1', () => {
        
-        it('Ok, deposit $350 to the amount of the user', (done) => {
+        it('Ok, deposit $150 to the amount of the user', (done) => {
             request(app).post('/user/deposit/1')
-                .send({ amount: 350 })
+                .send({ amount: 150 })
                 .then((res) => {
                     const body = res.body;
-                    expect(body).to.have.property('amount').to.be.equal(350);
+                    expect(body).to.have.property('amount').to.be.equal(150);
                     return done();
                 }).catch((err) => done(err));
         }).timeout(1000*60*20);
@@ -63,22 +63,22 @@ describe('API Rest', () => {
 
     describe('POST /user/extraction/1', () => {
        
-        it('Ok, extract $250 to the amount of the user', (done) => {
+        it('Ok, extract $100 to the amount of the user', (done) => {
             request(app).post('/user/extraction/1')
-                .send({ amount: 250 })
+                .send({ amount: 100 })
                 .then((res) => {
                     const body = res.body;
-                    expect(body).to.have.property('amount').to.be.equal(100);
+                    expect(body).to.have.property('amount').to.be.equal(50);
                     return done();
                 }).catch((err) => done(err));
         }).timeout(1000*60*20);
 
-        it('Fail, extract $500 to the amount of the user', (done) => {
+        it('Fail, extract $500 to the amount of the user, exceeded limit', (done) => {
             request(app).post('/user/extraction/1')
                 .send({ amount: 500 })
                 .then((res) => {
                     const body = res.body;
-                    expect(body.message).to.equal('The amount dont be negative');
+                    expect(body.message).to.equal('You have exceeded the extraction limit');
                     return done();
                 }).catch((err) => done(err));
         }).timeout(1000*60*20);
