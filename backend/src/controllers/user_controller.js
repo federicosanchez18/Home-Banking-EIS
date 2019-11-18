@@ -103,4 +103,16 @@ module.exports = class UserController {
             return ErrorHandler.handleError(res, new ErrorValidation(error.message));
         }
     }
+
+    static async updateLimit(req, res) {
+        try {
+            const user = await User.findOneAndUpdate({id: req.params.id}, {limit: req.body.limit}, {new: true});
+            if (!user) {
+                return ErrorHandler.handleError(res, new ErrorToFindUser());
+            }
+            res.send(user);
+        } catch (error) {
+            return ErrorHandler.handleError(res, new ErrorValidation(error.message));
+        }
+    }
 }
