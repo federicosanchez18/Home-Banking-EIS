@@ -1,15 +1,23 @@
 <template>
-    <div id="register">
-        <h1 id = "app">Register</h1>
-        <ul>
-          <li><input v-model="dni" placeholder="DNI"></li>
-          <li><input v-model="username" type="text" placeholder="Name"></li>
-          <li><input v-model="email" placeholder="Email"></li>
-          <li><input v-model="password" placeholder="Password"></li>
-        </ul>
-        <button type="button" v-on:click="register()" >Create Account</button>
-        <button type="button" v-on:click="goBack()">Go Back</button>
+  <div id="Register">
+    <h1>Crear una nueva cuenta </h1>
+
+    <div id="labels">
+      <label>Ingrese su DNI</label>
+      <b-form-input v-model="user.dni" placeholder="Ingrese su DNI"></b-form-input>
+      <label>Ingrese su Nombre de Usuario</label>
+      <b-form-input v-model="user.username" placeholder="Ingrese su  Nombre de Usuario"></b-form-input>
+      <label>Ingrese su Email</label>
+      <b-form-input v-model="user.email" placeholder="Ingrese su Email"></b-form-input>
+      <label>Ingrese su Password</label>
+      <b-form-input v-model="user.password" placeholder="Ingrese su password"></b-form-input>
     </div>
+    <div id= 'botoncito'>
+
+      <b-button type="submit" variant="primary" v-on:click="register()">Registrarse</b-button>
+      <b-button type="submit" variant="primary">Cambiar Clave</b-button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -35,7 +43,7 @@ export default {
   },
   methods: {
       register() {
-          fetch('/api/user/register', {
+          fetch('/user/register', {
               method: 'POST',
               body: JSON.stringify(this.user),
               headers: {
@@ -44,9 +52,6 @@ export default {
               }
           })
               .then(res => res.json())
-              .then(data => {
-                  this.getUsers();
-              })
               .catch(err => console.log(err));
           this.user = new User();
       },
