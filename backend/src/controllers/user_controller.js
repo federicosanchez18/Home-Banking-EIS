@@ -3,6 +3,7 @@ const ErrorHandler = require('../errors_response/error_handler');
 const ErrorToFindUser = require('../errors_response/error_to_find_user');
 const ErrorPasswordInvalid = require('../errors_response/error_password_invalid');
 const ErrorValidation = require('../errors_response/error_validation');
+const AmountDontBeNegative = require('../errors_response/error_amount_dont_be_negative');
 
 module.exports = class UserController {
 
@@ -84,11 +85,17 @@ module.exports = class UserController {
 
     static async toExtractAmount(req, res) {
         try {
-            const user = await User.findOneAndUpdate({id: req.params.id}, {$inc: {amount: - req.body.amount}}, {new: true});
+            const user = await User.findOne({id: req.params.id});
             if (!user) {
                 return ErrorHandler.handleError(res, new ErrorToFindUser());
             }
-            res.send(user);
+            const result = user.amount - req.body.amount;
+            if (result < 0) {
+                return ErrorHandler.handleError(res, new AmountDontBeNegative());
+            } else {
+                const userUp = await User.findOneAndUpdate({id: req.params.id}, {$inc: {amount: -req.body.amount}}, {new: true});
+                res.send(userUp);
+            }
         } catch (error) {
             return ErrorHandler.handleError(res, new ErrorValidation(error.message));
         }
