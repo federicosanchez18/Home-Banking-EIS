@@ -31,17 +31,9 @@ export default {
   },
   methods: {
     login () {
-      fetch('/user/login', {
-        method: 'POST',
-        body: this.input,
-        headers: {
-          'Accept': 'application/json',
-          'Content-type': 'application/json'
-        }
-      })
-        .then(res => res.json())
-        .catch(err => console.log(err));
-      this.user = new User();
+      this.axios.post('http://localhost:3060/user/login', this.input)
+           .then(res =>  console.log(res))
+           .catch(err => console.log(err.message));
     },
     userRegister () {
       this.$router.replace({ name: 'Register' })
@@ -70,7 +62,7 @@ export default {
   }
 
 #botoncito{
-  martin-top : 20 px;
+  margin-top : 20 px;
   margin-right: 20px;
 }
 </style>

@@ -43,19 +43,10 @@ export default {
   },
   methods: {
       register() {
-          fetch('/user/register', {
-              method: 'POST',
-              body: JSON.stringify(this.user),
-              headers: {
-                  'Accept': 'application/json',
-                  'Content-type': 'application/json'
-              }
-          })
-              .then(res => res.json())
-              .catch(err => console.log(err));
-          this.user = new User();
+          this.axios.post('http://localhost:3060/user/register', this.user)
+           .then(res =>  console.log(res))
+           .catch(err => console.log(err.message));
       },
-
       goBack () {
       this.$router.replace({ name: 'Login' })
     }
