@@ -10,11 +10,11 @@
     <div class="white-container">
       <div class="menu-container">
         <h1 class="tu-cuenta">Tu cuenta</h1>
-        <button class="links" >Extraer dinero</button>
+        <button class="links" v-on:click="cashOut()" >Extraer dinero</button>
         <button class="links" >Depositar dinero</button>
         <button class="links" >Pagar servicios</button>
         <button class="links" v-on:click="transfer()">Transferir dinero</button>
-        <button class="links" >Cambiar límite de extracción</button>
+        <button class="links" v-on:click="limit()">Cambiar límite de extracción</button>
       </div>
       <div class="green-container">
         <div class="cuenta-info">
@@ -43,6 +43,12 @@ export default {
     methods: {
       transfer () {
         this.$router.push({ name: 'Transfer', params: {...this.$route.params} })
+      },
+      cashOut () {
+        this.$router.push({ name: 'CashOut', params: {...this.$route.params} })
+      },
+      limit () {
+        this.$router.push({ name: 'Limit', params: {...this.$route.params} })
       }
     }
   }

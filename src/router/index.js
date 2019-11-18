@@ -5,6 +5,8 @@ import Login from '@/components/Login'
 import HomeBanking from '../components/HomeBanking'
 import Register from '../components/Register'
 import Transfer from '../components/Transfer'
+import CashOut from '../components/CashOut'
+import ExtractionLimit from '../components/ExtractionLimit'
 
 Vue.use(Router)
 
@@ -34,6 +36,16 @@ export default new Router({
       path: '/Transfer',
       name: 'Transfer',
       component: Transfer
+    },
+    {
+      path: '/CashOut',
+      name: 'CashOut',
+      component: CashOut
+    },
+    {
+      path: '/Limit',
+      name: 'Limit',
+      component: ExtractionLimit
     }
   ]
 })

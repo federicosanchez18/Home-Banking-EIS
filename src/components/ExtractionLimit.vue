@@ -1,11 +1,11 @@
 .<template>
   <div class="white-container">
     <div class="menu-container" id="transfer">
-        <h1 id = "app">Extraer</h1>
+        <h2 id = "app">Limite de Extraccion</h2>
         <ul>
           <li><label for="amount">Amount</label><input class="links" value="amount" v-model="amount" type="text" placeholder="Amount"></li>
         </ul>
-        <button type="button" v-on:click="cashOut()" >Confirm</button>
+        <button type="button" v-on:click="changeLimit()" >Confirm</button>
         <button type="button" v-on:click="goBack()">Go Back</button>
     </div>
   </div>
@@ -14,7 +14,7 @@
 <script>
 
 export default {
-  name: 'CashOut',
+  name: 'ExtractionLimit',
   data () {
     return {
       input: {
@@ -23,8 +23,8 @@ export default {
     }
   },
   methods:{
-    cashOut(){
-      this.axios.put('http://localhost:3060/user/extraction/:' + this.$route.params.id, this.input)
+    changeLimit(){
+      this.axios.put('http://localhost:3060/user/limit/:' + this.$route.params.id, this.input.amount)
            .then(res =>  this.$router.push({ name: 'HomeBanking', params: { ...res.userUp}}))
            .catch(err => console.log(err.message));
     },
