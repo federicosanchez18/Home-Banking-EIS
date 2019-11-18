@@ -11,7 +11,7 @@
       <div class="menu-container">
         <h1 class="tu-cuenta">Tu cuenta</h1>
         <button class="links" v-on:click="cashOut()" >Extraer dinero</button>
-        <button class="links" >Depositar dinero</button>
+        <button class="links" v-on:click="deposit()">Depositar dinero</button>
         <button class="links" >Pagar servicios</button>
         <button class="links" v-on:click="transfer()">Transferir dinero</button>
         <button class="links" v-on:click="limit()">Cambiar límite de extracción</button>
@@ -19,8 +19,8 @@
       <div class="green-container">
         <div class="cuenta-info">
           <p>Saldo en tu cuenta</p>
-          <h3 id="saldo-cuenta">$ {{dineroDisponible}}</h3>
-          <p id="limite-extraccion">Tu límite de extracción es: {{limiteExtraccion}} </p>
+          <h3 id="saldo-cuenta">$ {{this.$route.params.amount}}</h3>
+          <p id="limite-extraccion">Tu límite de extracción es: {{this.$route.params.limit}} </p>
         </div>
       </div>
     </div>
@@ -49,6 +49,9 @@ export default {
       },
       limit () {
         this.$router.push({ name: 'Limit', params: {...this.$route.params} })
+      },
+      deposit() {
+        this.$router.push({ name: 'Deposit', params: {...this.$route.params}})
       }
     }
   }

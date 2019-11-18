@@ -7,6 +7,7 @@ import Register from '../components/Register'
 import Transfer from '../components/Transfer'
 import CashOut from '../components/CashOut'
 import ExtractionLimit from '../components/ExtractionLimit'
+import Deposit from '../components/Deposit'
 
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ export default new Router({
       path: '/Limit',
       name: 'Limit',
       component: ExtractionLimit
+    },
+    {
+      path: '/Deposit',
+      name: 'Deposit',
+      component: Deposit
     }
   ]
 })
