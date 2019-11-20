@@ -22,8 +22,8 @@ export default {
     },
     methods: {
         changePassword() {
-            if(this.input.username !="" && this.input.password !="" && this.input.newPassword !=""){
-                if(this.input.username == this.$parent.mockAccount.username && this.input.password == this.$parent.mockAccount.password){
+      if(this.input.username !="" && this.input.password !="" && this.input.newPassword !=""){
+        if(this.input.username == this.$parent.mockAccount.username && this.input.password == this.$parent.mockAccount.password){
                     this.$parent.password =  this.input.newPassword,
                     this.alert("Password change successfully"),
                     this.$router.replace({name: "Login"})
@@ -45,6 +45,6 @@ export default {
     background-color: #2cc197;
     margin: auto;
     margin-top: 200px;
-    padding: 20px;        
+    padding: 20px;
     }
 </style>
