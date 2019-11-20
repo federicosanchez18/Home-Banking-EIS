@@ -24,7 +24,7 @@ describe('API Rest', () => {
         
         it('Ok, creating a new user', (done) => {
             request(app).post('/user/register')
-                .send({ dni: 35242425, username: 'Test', password: 'asd1234', email: 'test@email.com'})
+                .send({ dni: 35242425, username: 'test', password: 'asd1234', email: 'test@email.com'})
                 .then((res) => {
                     const body = res.body.registerUser;
                     expect(body).to.contain.property('id');
