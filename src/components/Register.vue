@@ -10,7 +10,10 @@
       <label>Ingrese su Email</label>
       <b-form-input v-model="user.email" placeholder="Ingrese su Email"></b-form-input>
       <label>Ingrese su Password</label>
-      <b-form-input v-model="user.password" placeholder="Ingrese su password"></b-form-input>
+      <b-form-input :type="passwordFieldType" v-model="user.password" placeholder="Ingrese su password"></b-form-input>
+      <button @click="switchVisibility" class="btn btn-secondary m-t-1">
+          Show/Hide Password
+      </button>
     </div>
     <div id= 'botoncito'>
 
@@ -40,17 +43,21 @@ export default {
   data () {
     return {
       user : new User(),
+      passwordFieldType: 'password'
     }
   },
   methods: {
       register() {
-          this.axios.post('http://localhost:3060/user/register', JSON.stringify(this.user))
-           .then(res =>  console.log(res))
-           .catch(err => console.log(err.message));
+          this.axios.post('http://localhost:3060/user/register', this.user)
+           .then(res =>  this.$router.push({ name: 'HomeBanking', params: { ...res.data.registerUser}}))
+           .catch(err => console.log(err.message))
       },
       goBack () {
       this.$router.replace({ name: 'Login' })
-    }
+      },
+      switchVisibility(){
+        this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
+      }
   }
 
 }

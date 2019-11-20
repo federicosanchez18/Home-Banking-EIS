@@ -6,7 +6,10 @@
       <label>Ingrese su Usuario</label>
       <b-form-input v-model="input.username" placeholder="Ingrese su usuario"></b-form-input>
       <label>Ingrese su Password</label>
-      <b-form-input v-model="input.password" placeholder="Ingrese su password"></b-form-input>
+      <b-form-input :type="passwordFieldType" v-model="input.password" placeholder="Ingrese su password"></b-form-input>
+      <button @click="switchVisibility" class="btn btn-secondary m-t-1">
+         Show/Hide Password
+      </button>
     </div>
       <div id= 'botoncito'>
       <b-button type="submit"  variant="primary" v-on:click="login()">Login</b-button>
@@ -26,7 +29,8 @@ export default {
       input: {
         username: '',
         password: ''
-      }
+      },
+      passwordFieldType: 'password'
     }
   },
   methods: {
@@ -40,6 +44,9 @@ export default {
     },
     changePassword() {
      this.$router.push({name : 'changePassword'})
+    },
+    switchVisibility(){
+      this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
     }
   }
 }
