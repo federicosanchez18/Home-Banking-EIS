@@ -19,8 +19,8 @@
       <div class="green-container">
         <div class="cuenta-info">
           <p>Saldo en tu cuenta</p>
-          <h3 id="saldo-cuenta">$ {{this.$route.params.amount}}</h3>
-          <p id="limite-extraccion">Tu límite de extracción es: {{this.$route.params.limit}} </p>
+          <h3 id="saldo-cuenta">$ {{(this.$route.params).amount}}</h3>
+          <p id="limite-extraccion">Tu límite de extracción es: {{(this.$route.params).limit}} </p>
         </div>
       </div>
     </div>
