@@ -12,7 +12,7 @@ module.exports = class UserController {
         try {
             const user = new User(req.body);
             await user.save();
-            res.send(user);
+            res.send({registerUser: user});
         } catch(error) {
             return ErrorHandler.handleError(res, new ErrorValidation(error.message));
         }
