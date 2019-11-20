@@ -36,10 +36,10 @@ export default {
            .catch(err => console.log(err.message));
     },
     userRegister () {
-      this.$router.replace({ name: 'Register' })
+      this.$router.push({ name: 'Register' })
     },
     changePassword() {
-     this.$router.replace({name : 'changePassword'})
+     this.$router.push({name : 'changePassword'})
     }
   }
 }
