@@ -21,6 +21,7 @@
           <p>Saldo en tu cuenta</p>
           <h3 id="saldo-cuenta">$ {{this.$route.params.amount}}</h3>
           <p id="limite-extraccion">Tu límite de extracción es: {{this.$route.params.limit}} </p>
+          <iframe margin-left="10px" width="140px" height="85px" src="https://www.dolarsi.com/cotizador/cotizadorDolarsiSmall.php" frameborder="0" scrolling="0" allowfullscreen=""></iframe>
         </div>
       </div>
     </div>
