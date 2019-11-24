@@ -3,8 +3,9 @@
     <div class="header">
       <img class="logo" src="../../img/logo.png">
       <div class="align-left">
-        <span id="nombre">Bienvenido/a</span>
+        <span id="nombre">Bienvenido/a {{this.$route.params.username}}</span>
         <img class="avatar" src="../../img/avatar.svg"/>
+        <h3> <button class="links" v-on:click="closeSession()">Cerrar Sesión</button> </h3>
       </div>
     </div>
     <div class="white-container">
@@ -53,7 +54,11 @@ export default {
       },
       myCBU() {
         this.$router.push({ name: 'MyCBU', params: {...this.$route.params}})
+      },
+      closeSession(){
+        this.$router.replace({name: 'Login'})
       }
+
     }
   }
 
@@ -83,6 +88,13 @@ export default {
   }
 
   .align-left {
+    display: flex;
+    padding: 8px;
+
+    align-items: center;
+  }
+
+  .align-rigth {
     display: flex;
     padding: 8px;
 
