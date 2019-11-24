@@ -9,7 +9,7 @@ function connect() {
             const mockgoose = new Mockgoose(mongoose);
             mockgoose.prepareStorage()
                 .then(() => {
-                    mongoose.connect(DB_URI, 
+                    mongoose.connect(DB_URI,
                         {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false})
                         .then((res, err) => {
                             if (err) return reject(err);
@@ -17,14 +17,14 @@ function connect() {
                         });
                 });
         } else {
-            mongoose.connect(DB_URI, 
+            mongoose.connect(DB_URI,
                 {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false})
                 .then(async (res, err) => {
                     const bot1 = await User.findOne({dni: 12345678});
                     const bot2 = await User.findOne({dni: 12345679});
                     if (!bot1 && !bot2) {
-                        const userBot1 = new User({dni: 12345678, username: 'bot1', password: 'bot1234', email: 'bot1@email.com'});
-                        const userBot2 = new User({dni: 12345679, username: 'bot2', password: 'bot1234', email: 'bot2@email.com'});
+                        const userBot1 = new User({dni: 12345678, username: 'PabloSuarez', password: 'bot1234', email: 'bot1@email.com'});
+                        const userBot2 = new User({dni: 12345679, username: 'DiegoSanchez', password: 'bot1234', email: 'bot2@email.com'});
                         userBot1.save();
                         userBot2.save();
                     }
