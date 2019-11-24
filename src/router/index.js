@@ -8,6 +8,7 @@ import Transfer from '../components/Transfer'
 import CashOut from '../components/CashOut'
 import ExtractionLimit from '../components/ExtractionLimit'
 import Deposit from '../components/Deposit'
+import MyCBU from '../components/MyCBU'
 
 Vue.use(Router)
 
@@ -52,6 +53,11 @@ export default new Router({
       path: '/Deposit',
       name: 'Deposit',
       component: Deposit
+    },
+    {
+      path: '/MyCBU',
+      name: 'MyCBU',
+      component: MyCBU
     }
   ]
 })

@@ -1,12 +1,11 @@
 <template>
   <div class="white-container">
     <div class="menu-container" id="transfer">
-        <h1 id = "app">Transfer</h1>
+        <h1 id = "app">Mi CBU</h1>
         <ul>
-          <li><p>C.B.U.</p><input type="Number" v-model="cbu" placeholder="CBU"></li>
-          <li><label for="amount">Amount</label><input v-model="amount" type="Number" placeholder="Amount"></li>
+          <li><p>C.B.U.</p></li>
+          <h3 id="cbu-cuenta">{{this.$route.params.cbu}}</h3>
         </ul>
-        <button type="button" v-on:click="transfer()" >Confirm</button>
         <button type="button" v-on:click="goBack()">Go Back</button>
     </div>
   </div>
@@ -15,19 +14,7 @@
 <script>
 export default {
   name: 'Transfer',
-  data () {
-    return {
-      cbu: 0,
-      amount: 0
-      }
-  },
   methods:{
-    transfer() {
-      this.axios.put('http://localhost:3060/user/transfer/' + this.$route.params.id, {amount: this.amount, cbu: this.cbu})
-           .then(res => {this.$route.params.amount= res.data.amount;
-             this.$router.push({ name: 'HomeBanking', params: { ...this.$route.params}});})
-           .catch(err => console.log(err.message));
-    },
     goBack () {
     this.$router.push({ name: 'HomeBanking', params: {...this.$route.params} })
     }
@@ -79,5 +66,15 @@ export default {
     color: #666;
     border: 0;
     background-color: transparent;
+  }
+  #cbu-cuenta {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    overflow: hidden;
+
+    font-size: 2.5vw;
+
+    text-align: left;
+    text-overflow: ellipsis;
   }
 </style>
