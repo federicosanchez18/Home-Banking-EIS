@@ -45,6 +45,13 @@ const UserSchema = new Schema({
     date: {
         type: Date,
         default: Date.now
+    },
+    cbu: {
+        type: Number,
+        default: function() {
+            return Math.floor(Math.random()*90000) + 10000;
+        },
+        unique: true
     }
 });
 

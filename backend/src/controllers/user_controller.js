@@ -59,18 +59,6 @@ module.exports = class UserController {
             return ErrorHandler.handleError(res, new ErrorValidation(error.message));
         }
     }
-
-    static async getUser(req, res) {
-        try {
-            const user = await User.findOne({id: req.params.id});
-            if (!user) {
-                return ErrorHandler.handleError(res, new ErrorToFindUser());
-            }
-            res.send(user);
-        } catch(error) {
-            return ErrorHandler.handleError(res, new ErrorValidation(error.message));
-        }
-    }
     
     static async toDepositAmount(req, res) {
         try {
@@ -111,6 +99,37 @@ module.exports = class UserController {
                 return ErrorHandler.handleError(res, new ErrorToFindUser());
             }
             res.send(user);
+        } catch (error) {
+            return ErrorHandler.handleError(res, new ErrorValidation(error.message));
+        }
+    }
+
+    static async getUserCBU(req, res) {
+        try {
+            const user = await User.findOne({id: req.params.id});
+            if (!user) {
+                return ErrorHandler.handleError(res, new ErrorToFindUser());
+            }
+            res.send(user.cbu);
+        } catch(error) {
+            return ErrorHandler.handleError(res, new ErrorValidation(error.message));
+        }
+    }
+
+    static async toTransfer(req, res) {
+        try {
+            const user = await User.findOne({id: req.params.id});
+            if (!user) {
+                return ErrorHandler.handleError(res, new ErrorToFindUser());
+            }
+            const result = user.amount - req.body.amount;
+            console.log(result);
+            if (result < 0) {
+                return ErrorHandler.handleError(res, new ErrorAmountDontBeNegative());
+            }
+            const userUp = await User.findOneAndUpdate({id: req.params.id}, {$inc: {amount: -req.body.amount}}, {new: true});
+            const us = await User.findOneAndUpdate({cbu: req.body.cbu}, {$inc: {amount: +req.body.amount}}, {new: true});
+            res.send(userUp);
         } catch (error) {
             return ErrorHandler.handleError(res, new ErrorValidation(error.message));
         }
