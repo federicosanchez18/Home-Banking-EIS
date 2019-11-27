@@ -25,7 +25,7 @@ export default {
       this.axios.put('http://localhost:3060/user/limit/' + this.$route.params.id, {limit: this.limit})
            .then(res =>  {this.$route.params.limit= res.data.limit;
              this.$router.push({ name: 'HomeBanking', params: { ...this.$route.params}});})
-           .catch(err => console.log(err.message));
+           .catch(err => alert(err.response.data.message));
     },
     goBack () {
       this.$router.push({ name: 'HomeBanking', params: {...this.$route.params} })

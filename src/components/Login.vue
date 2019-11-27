@@ -37,7 +37,7 @@ export default {
     login () {
       this.axios.post('http://localhost:3060/user/login', this.input)
            .then(res =>  this.$router.push({ name: 'HomeBanking', params: { ...res.data.loggedUser}}))
-           .catch(err => console.log(err.message));
+           .catch(err => alert(err.response.data.message));
     },
     userRegister () {
       this.$router.push({ name: 'Register' })

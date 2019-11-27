@@ -25,7 +25,7 @@ export default {
       this.axios.put('http://localhost:3060/user/extraction/' + this.$route.params.id, {amount: this.amount})
            .then(res =>  {this.$route.params.amount= res.data.amount;
              this.$router.push({ name: 'HomeBanking', params: { ...this.$route.params}});})
-           .catch(err => console.log(err.message));
+           .catch(err => alert(err.response.data.message));
     },
     goBack () {
       this.$router.push({ name: 'HomeBanking', params: {...this.$route.params} })

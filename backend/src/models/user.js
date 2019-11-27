@@ -13,9 +13,9 @@ const UserSchema = new Schema({
     },
     dni: {
         type: Number,
-        validate: function(v) {
+        validate: [function(v) {
             return /(^([0-9]{8,8})|^)$/.test(v);
-        },
+        }, 'Ingrese un DNI válido'],
         required: [true, 'The DNI is required']
     },
     username: {
@@ -28,9 +28,9 @@ const UserSchema = new Schema({
     },
     email: {
         type: String,
-        validate: function(v) {
+        validate: [function(v) {
             return /^[^@\s]+@[^@\.\s]+(\.[^@\.\s]+)+$/.test(v);
-        },
+        }, 'Ingrese un email válido'],
         required: [true, 'The email is required']
     },
     amount: {

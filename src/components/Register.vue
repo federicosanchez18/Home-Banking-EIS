@@ -25,8 +25,6 @@
 </template>
 
 <script>
-
-
 class User {
     constructor(dni, email, username, password) {
         this.dni = dni;
@@ -34,10 +32,7 @@ class User {
         this.username = username;
         this.password = password;
     }
-
-
 }
-
 export default {
   name: 'Register',
   data () {
@@ -50,7 +45,7 @@ export default {
       register() {
           this.axios.post('http://localhost:3060/user/register', this.user)
            .then(res =>  this.$router.push({ name: 'HomeBanking', params: { ...res.data.registerUser}}))
-           .catch(err => console.log(err.message))
+           .catch(err => alert(err.response.data.message))
       },
       goBack () {
       this.$router.replace({ name: 'Login' })
@@ -59,7 +54,6 @@ export default {
         this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
       }
   }
-
 }
 </script>
 
