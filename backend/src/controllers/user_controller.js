@@ -1,6 +1,7 @@
 const User = require('../models/user');
+const rp = require('request-promise');
 const ErrorHandler = require('../errors_response/error_handler');
-const ErrorToFindUser = require('../errors_response/error_to_find_user');
+const ErrorToFindUser = require('../errors_response/error_to_find_user_or_services');
 const ErrorPasswordInvalid = require('../errors_response/error_password_invalid');
 const ErrorValidation = require('../errors_response/error_validation');
 const ErrorAmountDontBeNegative = require('../errors_response/error_amount_dont_be_negative');
@@ -24,7 +25,7 @@ module.exports = class UserController {
             const email = req.body.email;
             const user = await User.findOne({$or:[{username: username}, {email: email}]}).exec();
             if(!user){
-                return ErrorHandler.handleError(res, new ErrorToFindUser());
+                return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
             }
             if(!await user.comparePassword(req.body.password)){
                 return ErrorHandler.handleError(res, new ErrorPasswordInvalid());
@@ -40,7 +41,7 @@ module.exports = class UserController {
         try {
             const user = await User.findOneAndUpdate({id: req.params.id}, {$set: req.body}, {new: true});
             if (!user) {
-                return ErrorHandler.handleError(res, new ErrorToFindUser());
+                return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
             }
             res.json(user);
         } catch(error) {
@@ -52,7 +53,7 @@ module.exports = class UserController {
         try {
             const user = await User.findOneAndDelete({id: req.params.id});
             if (!user) {
-                return ErrorHandler.handleError(res, new ErrorToFindUser());
+                return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
             }
             res.json({message: `${user.dni} is deleted`});
         } catch(error) {
@@ -64,7 +65,7 @@ module.exports = class UserController {
         try {
             const user = await User.findOneAndUpdate({id: req.params.id}, {$inc: {amount: +req.body.amount}}, {new: true});
             if (!user) {
-                return ErrorHandler.handleError(res, new ErrorToFindUser());
+                return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
             }
             res.send(user);
         } catch (error) {
@@ -76,7 +77,7 @@ module.exports = class UserController {
         try {
             const user = await User.findOne({id: req.params.id});
             if (!user) {
-                return ErrorHandler.handleError(res, new ErrorToFindUser());
+                return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
             }
             const result = user.amount - req.body.amount;
             if (req.body.amount > user.limit) {
@@ -96,7 +97,7 @@ module.exports = class UserController {
         try {
             const user = await User.findOneAndUpdate({id: req.params.id}, {limit: req.body.limit}, {new: true});
             if (!user) {
-                return ErrorHandler.handleError(res, new ErrorToFindUser());
+                return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
             }
             res.send(user);
         } catch (error) {
@@ -108,7 +109,7 @@ module.exports = class UserController {
         try {
             const user = await User.findOne({id: req.params.id});
             if (!user) {
-                return ErrorHandler.handleError(res, new ErrorToFindUser());
+                return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
             }
             res.send(user.cbu);
         } catch(error) {
@@ -120,7 +121,7 @@ module.exports = class UserController {
         try {
             const user = await User.findOne({id: req.params.id});
             if (!user) {
-                return ErrorHandler.handleError(res, new ErrorToFindUser());
+                return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
             }
             const result = user.amount - req.body.amount;
             console.log(result);
@@ -133,5 +134,27 @@ module.exports = class UserController {
         } catch (error) {
             return ErrorHandler.handleError(res, new ErrorValidation(error.message));
         }
+    }
+
+    static async paidServices(req, res){
+        const user = await User.findOne({id: req.params.id});
+        const paymentCode = req.body.paymentCode;
+        if (!user) {
+            return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
+        }
+        const options = {
+            uri: `http://localhost:3060/services/pay/${paymentCode}`,
+            json: {amount: user.amount},
+            method: 'PUT'
+        }
+        return rp(options)
+                .then(async data => {
+                    if (data.paidServices.payServices){
+                        const user = await User.findOneAndUpdate({id: req.params.id}, {amount: -data.paidServices.amount}, {new: true});
+                        res.send({userPaidServices: user});
+                    }
+                }).catch(error => {
+                    return ErrorHandler.handleError(res, new ErrorValidation(error.message));
+                })
     }
 }

@@ -11,5 +11,6 @@ router.route('/extraction/:id').put(UserController.toExtractAmount);
 router.route('/limit/:id').put(UserController.updateLimit);
 router.route('/transfer/:id').put(UserController.toTransfer);
 router.route('/:id').get(UserController.getUserCBU);
+router.route('/payservices/:id').put(UserController.paidServices);
 
 module.exports = router;
