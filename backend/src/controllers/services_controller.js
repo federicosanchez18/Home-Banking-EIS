@@ -1,3 +1,4 @@
+const rp = require('request-promise');
 const Services = require('../models/services');
 const ErrorHandler = require('../errors_response/error_handler');
 const ErrorToFindServices = require('../errors_response/error_to_find_user_or_services');
@@ -7,12 +8,32 @@ const ErrorTheServicesIsPaid = require('../errors_response/error_the_services_is
 
 module.exports = class ServicesController {
 
-    static async createServices(req, res) {
+    static async createServicesAndSend(req, res) {
+        const services = new Services(req.body);
+        await services.save();
+        const options = {
+            uri: `http://localhost:3060/user/${req.params.id}`,
+            json: {services: services},
+            method: 'PUT'
+        }
+        return rp(options)
+                .then(data => {
+                    if (data.user){
+                        res.send({services: services});
+                    }
+                }).catch(error => {
+                    return ErrorHandler.handleError(res, new ErrorValidation(error.message));
+                })
+    }
+
+    static async getServicesToObjectId(req,res){
         try {
-            const services = new Services(req.body);
-            await services.save();
-            res.send({createdServices: services});
-        } catch(error) {
+            const services = await Services.findById({_id: req.params.objectId}).exec();
+            if (!services){
+                return ErrorHandler.handleError(res, new ErrorToFindServices);
+            }
+            res.json({services});
+        } catch (error) {
             return ErrorHandler.handleError(res, new ErrorValidation(error.message));
         }
     }
