@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
-require('mongoose-currency').loadType(mongoose);
 const { Schema } = mongoose;
-const Currency = mongoose.Types.Currency;  
 
 const ServicesSchema = new Schema({
     paymentCode: {
@@ -16,7 +14,7 @@ const ServicesSchema = new Schema({
         required: [true, 'The name is required']
     },
     amount: {
-        type: Currency,
+        type: Number,
         required: [true, 'The amount is required'],
         min: 0
     },
