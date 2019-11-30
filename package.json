@@ -26,11 +26,12 @@
     "mongoose-currency": "0.2.0",
     "mongoose-sequence": "5.2.2",
     "morgan": "1.9.1",
+    "sweetalert2": "^9.4.0",
     "vue": "2.5.2",
     "vue-axios": "2.1.5",
     "vue-router": "3.0.1",
     "vue-swal": "^1.0.0",
-    "vue-sweetalert2": "2.1.5"
+    "vue-sweetalert2": "^2.1.5"
   },
   "devDependencies": {
     "autoprefixer": "7.1.2",
