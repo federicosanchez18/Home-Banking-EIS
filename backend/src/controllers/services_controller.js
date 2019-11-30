@@ -9,8 +9,12 @@ const ErrorTheServicesIsPaid = require('../errors_response/error_the_services_is
 module.exports = class ServicesController {
 
     static async createServicesAndSend(req, res) {
+        try {
         const services = new Services(req.body);
         await services.save();
+        if (process.env.NODE_ENV === 'test') {
+            return res.send({services: services});
+        }
         const options = {
             uri: `http://localhost:3060/user/${req.params.id}`,
             json: {services: services},
@@ -24,6 +28,9 @@ module.exports = class ServicesController {
                 }).catch(error => {
                     return ErrorHandler.handleError(res, new ErrorValidation(error.message));
                 })
+        } catch(error) {
+            return ErrorHandler.handleError(res, new ErrorValidation(error.message));
+        }
     }
 
     static async getServicesToObjectId(req,res){
