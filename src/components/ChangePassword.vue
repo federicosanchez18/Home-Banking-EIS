@@ -1,10 +1,21 @@
 <template>
     <div id="changePassword">
-        <h1>¿Forget your password?</h1>
-        <input type="text" name="userName" v-model="input.username" placeholder="UserName"/>
-        <input type="text" name="password" v-model="input.password" placeholder="Password"/>
-        <input type="text" name="newPassword" v-model="input.newPassword" placeholder="NewPassword"/>
-        <button type="button" v-on:click="changePassword()">Change Password</button>
+        <h1>Cambie su clave</h1>
+        <div id="labels">
+            <label>Ingrese su Usuario</label>
+            <b-form-input v-model="input.username" placeholder="Ingrese su usuario"></b-form-input>
+            <label>Ingrese su Clave</label>
+            <b-form-input :type="passwordFieldType" v-model="input.password" placeholder="Ingrese su password"></b-form-input>
+          <label>Ingrese su nueva Clave</label>
+          <b-form-input :type="passwordFieldType" v-model="input.newPassword" placeholder="Ingrese su nueva password"></b-form-input>
+        </div>
+        <div  id="showPassword">
+            <button @click="switchVisibility" class="btn btn-secondary m-t-1">
+              Mostrar Clave
+            </button>
+        </div>
+      <b-button type="submit"  variant="primary" v-on:click="changePassword()">Cambiar Clave</b-button>
+      <b-button type="submit"  variant="primary" v-on:click="goBack()">Volver al inicio</b-button>
     </div>
 </template>
 
@@ -21,30 +32,51 @@ export default {
       }
     },
     methods: {
-        changePassword() {
-      if(this.input.username !="" && this.input.password !="" && this.input.newPassword !=""){
-        if(this.input.username == this.$parent.mockAccount.username && this.input.password == this.$parent.mockAccount.password){
-                    this.$parent.password =  this.input.newPassword,
-                    this.alert("Password change successfully"),
-                    this.$router.replace({name: "Login"})
-                }else{
-                    console.log('The username and / or password is incorrect')
-                }
-            }else{
-                console.log("Complete the fields")
-            }
+      changePassword() {
+
+        if(this.input.username !="" && this.input.password !="" && this.input.newPassword !="") {
+
+          user = {
+            username: this.input.username,
+            password: this.input.newPassword
+          },
+            this.axios.put('http://localhost:3060/user/updateuser/:id', user)
+              .then(res => this.goBack())
+              .catch(err => this.showAlertError());
         }
+        else{
+              this.showErrorValidation()
+        }
+      },
+      goBack (){
+        this.$router.replace({ name: 'Login' })
+      },
+      switchVisibility(){
+        this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
+        this.passwordFieldType = this.passwordFieldType === 'newPassword' ? 'text' : 'newPassword';
+      },
+      showAlertError () {
+        {
+          this.$swal("No se pudo modificar su clave", "Verifique sus datos y vuelva a intentar", "error")
+        }
+      },
+      showErrorValidation(){
+        {
+          this.$swal("Complete todo los campos","", "error")
+        }
+
+      }
     }
 }
 </script>
-
 <style scoped>
     #changePassword{
-    width: 500px;
-    border: 1px solid #CCCCCC;
-    background-color: #2cc197;
-    margin: auto;
-    margin-top: 200px;
-    padding: 20px;
+      width: 500px;
+      margin: auto;
+      margin-top: 200px;
+      padding: 20px;
+    }
+    #showPassword{
+      margin-bottom: 15px;
     }
 </style>
