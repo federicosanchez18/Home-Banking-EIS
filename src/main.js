@@ -6,9 +6,10 @@ import App from './App'
 import axios from 'axios'
 import Vueaxios from 'vue-axios'
 import router from './router'
-
+import VueSwal from 'vue-swal'
 import BootstrapVue from 'bootstrap-vue'
 
+Vue.use(VueSwal)
 Vue.use(BootstrapVue);
 Vue.use(Vueaxios, axios);
 import 'bootstrap/dist/css/bootstrap.css'
