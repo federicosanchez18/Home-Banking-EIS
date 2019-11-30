@@ -5,6 +5,8 @@ import Login from '@/components/Login'
 import HomeBanking from '../components/HomeBanking'
 import Register from '../components/Register'
 import Transfer from '../components/Transfer'
+import PayService from '../components/PayService'
+import CreateServices from '../components/CreateServices'
 import CashOut from '../components/CashOut'
 import ExtractionLimit from '../components/ExtractionLimit'
 import Deposit from '../components/Deposit'
@@ -38,6 +40,16 @@ export default new Router({
       path: '/Transfer',
       name: 'Transfer',
       component: Transfer
+    },
+    {
+      path: '/PayService',
+      name: 'PayService',
+      component: PayService
+    },
+    {
+      path: '/CreateServices',
+      name: 'CreateServices',
+      component: CreateServices
     },
     {
       path: '/CashOut',
