@@ -8,7 +8,7 @@
             <label>Descripcion del servicio</label>
             <b-form-input v-model="service.description" placeholder="Ingrese descripcion del servicio"></b-form-input>
             <label>Monto a abonar</label>
-            <b-form-input v-model="service.amount" placeholder="Ingrese monto a abonar"></b-form-input>
+            <b-form-input v-model="service.amount" type="number" placeholder="Ingrese monto a abonar"></b-form-input>
         </ul>
         <button type="button" v-on:click="createServices()">Confirmar</button>
         <button type="button" v-on:click="goBack()">Volver</button>
@@ -35,7 +35,7 @@ export default {
     createServices() {
       this.axios.post('http://localhost:3060/services/create/' + this.$route.params.id, this.service)
            .then(res => {
-                        this.$route.params.services= res.data.services;                      
+                        this.$route.params.services.push(res.data.services);                      
                         this.$router.push({ name: 'PayService', params: { ...this.$route.params}});})
            .catch(err => alert(err.response.data.message));
     },

@@ -2,11 +2,11 @@
   <div class="white-container">
     <div class="menu-container" id="transfer">
         <h1 id = "app">Pagar Servicio</h1>
-          <button class= "btn btn-primary btn-block" type="button" v-on:click="showService()">Ver Servicios</button>
+          <button :disabled="disable" @click="isDisable" class= "btn btn-primary btn-block" type="button" v-on:click="showService()">Ver Servicios</button>
           <tr class="description"> Nombre Descripcion Monto Código de pago</tr>
-          <li v-for="s in service" v-bind:key="s" >{{ s.name }} {{ s.description }} {{ s.amount }} {{ s.paymentCode }}</li>
+          <div v-for="s in service" v-bind:key="s.name">{{ s.name }} {{ s.description }} {{ s.amount }} {{ s.paymentCode }}</div>
         
-        <li><label for="paymentCode">PaymentCode</label><input v-model="paymentCode" placeholder="Codigo de pago"></li>
+        <li><label for="paymentCode"></label><input v-model="paymentCode" placeholder="Codigo de pago"></li>
         
         <button type="button" v-on:click="payServices()">Pagar Servicio</button>
         <button type="button" v-on:click="createService()">Cargar Nuevo Servicio</button>
@@ -22,7 +22,8 @@ export default {
     return {
       paymentCode: 0,
       amount: 0,
-      service : []
+      service: [],
+      disable: false 
       }
   },
   methods:{
@@ -32,22 +33,23 @@ export default {
     payServices() {
       this.axios.put('http://localhost:3060/user/payservices/' + this.$route.params.id, {paymentCode: this.paymentCode})
            .then(res => {
-                        console.log(res.data.userPaidServices)
                         this.$route.params.amount = res.data.userPaidServices.amount;                    
                         this.$router.push({ name: 'HomeBanking', params: { ...this.$route.params}});})
            .catch(err => alert(err.response.data.message));
     },
-    getService(objectId){
-      this.axios.get('http://localhost:3060/services/' + objectId)
-           .then(res => {  this.service.push(res.data.services)     })           
+    getService(paymentCode){
+      this.axios.get('http://localhost:3060/services/' + paymentCode)
+           .then(res => {  
+             this.service.push(res.data.services)     })           
            .catch(err => alert(err.response.data.message));
     },
     showService(){
         this.$route.params.services.forEach(service => {
-        console.log(service);
-        this.getService(service)
-      
+        this.getService(service.paymentCode)
         });
+    },
+    isDisable(){
+      this.disable = !(this.disable === true);
     },
     goBack () {
     this.$router.push({ name: 'HomeBanking', params: {...this.$route.params} })
