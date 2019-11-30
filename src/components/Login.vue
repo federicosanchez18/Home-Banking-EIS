@@ -16,7 +16,7 @@
       <div id= 'botoncito'>
       <b-button type="submit"  variant="primary" v-on:click="login()">Login</b-button>
       <b-button type="submit" variant="primary" v-on:click="userRegister()">Registrarse</b-button>
-      <b-button type="submit" variant="primary">Cambiar Clave</b-button>
+      <b-button type="submit" variant="primary" v-on:click="changePassword()">Cambiar Clave</b-button>
       </div>
     </div>
 
