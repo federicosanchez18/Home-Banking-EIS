@@ -37,13 +37,25 @@ module.exports = class UserController {
         }
     }
 
+    static async updateUserServices(req, res) {
+        try {
+            const user = await User.findOneAndUpdate({id: req.params.id}, {$addToSet: {services: {$each: [req.body.services]}}}, {new: true});
+            if (!user) {
+                return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
+            }
+            res.send({user});
+        } catch(error) {
+            return ErrorHandler.handleError(res, new ErrorValidation(error.message));
+        }
+    }
+
     static async updateUser(req, res) {
         try {
             const user = await User.findOneAndUpdate({id: req.params.id}, {$set: req.body}, {new: true});
             if (!user) {
                 return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
             }
-            res.json(user);
+            res.send({user});
         } catch(error) {
             return ErrorHandler.handleError(res, new ErrorValidation(error.message));
         }
@@ -156,5 +168,33 @@ module.exports = class UserController {
                 }).catch(error => {
                     return ErrorHandler.handleError(res, new ErrorValidation(error.message));
                 })
+    }
+
+    static async getServices(req, res){
+        const user = await User.findOne({id: req.params.id});
+        if (!user){
+            return ErrorHandler.handleError(res, new ErrorToFindUser());
+        }
+        global.getServices = [];
+        var count = 0;
+        await user.services.forEach(service => {
+            const options = {
+                uri: `http://localhost:3060/services/${service}`,
+                method: 'GET'
+            };
+            return rp(options)
+                .then(data => {
+                    const d = JSON.parse(data);
+                    if (d){
+                        getServices.push(d.services.paymentCode);
+                        count++;
+                    }
+                    if (user.services.length == count){
+                        res.send(getServices);
+                    }
+                }).catch(error => {
+                    return ErrorHandler.handleError(res, new ErrorValidation(error.message));
+                });
+        });
     }
 }

@@ -2,6 +2,7 @@ process.env.NODE_ENV = 'test';
 const expect = require('chai').expect;
 const request = require('supertest');
 const Services = require('../src/models/services');
+const User = require('../src/models/user');
 
 const app = require('../src/app_backend');
 const conn = require('../src/db_index');
@@ -20,13 +21,18 @@ describe('API Rest', () => {
             .catch((err) => done(err));
     });
     
-    describe('POST /services/create', () => {
+    describe('POST /services/create/1', () => {
         
-        it('Ok, creating a new services', (done) => {
-            request(app).post('/services/create')
+        beforeEach( async function() {
+            const user = new User({dni: 32323232, username: 'pruebaservice', password: 'service1234', email: 'services@email.com'});
+            await user.save();
+        });
+
+        it('Ok, creating a new services', (done)=> {
+            request(app).post('/services/create/1')
                 .send({ name: 'Gas', amount: 500, description: 'Cuota del mes de Noviembre', paymentCode: 3310418990})
                 .then((res) => {
-                    const body = res.body.createdServices;
+                    const body = res.body.services;
                     expect(body).to.contain.property('name');
                     expect(body).to.contain.property('amount');
                     expect(body).to.contain.property('description');
@@ -38,7 +44,7 @@ describe('API Rest', () => {
         }).timeout(1000*60*20);
     
         it('Fail, services requires name', (done) => {
-            request(app).post('/services/create')
+            request(app).post('/services/create/1')
                 .send({ amount: 500, description: 'Cuota del mes de Noviembre' })
                 .then((res) => {
                     const body = res.body;
