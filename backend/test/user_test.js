@@ -135,26 +135,26 @@ describe('API Rest', () => {
         }).timeout(1000*60*20);
     });
     
-    describe('PUT /user/1', () => {
+    describe('PUT /user/updateuser/1', () => {
        
         it('Ok, update username Test to Update', (done) => {
-            request(app).put('/user/1')
+            request(app).put('/user/updateuser/1')
                 .send({ username: 'Update' })
                 .then((res) => {
-                    const body = res.body;
+                    const body = res.body.user;
                     expect(body).to.have.property('username').to.be.equal('Update');
                     return done();
                 }).catch((err) => done(err));
         }).timeout(1000*60*20);
     });
     
-    describe('DELETE /user/1', () => {
+    describe('DELETE /user/delete/1', () => {
         
         it('Ok, deleted a user id 1', (done) => {
-            request(app).delete('/user/1')
+            request(app).delete('/user/delete/1')
                 .then((res) => {
                     const body = res.body;
-                    expect(body.message).to.equal('35242425 is deleted');
+                    expect(body.message).to.equal('32323232 is deleted');
                     return done();
                 }).catch((err) => done(err));
         }).timeout(1000*60*20);

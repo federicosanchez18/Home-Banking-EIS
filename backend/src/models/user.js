@@ -52,7 +52,14 @@ const UserSchema = new Schema({
             return Math.floor(Math.random()*90000) + 10000;
         },
         unique: true
-    }
+    },
+    services: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Services',
+        index: true,
+        require: true,
+        default: []
+    }]
 });
 
 UserSchema.pre('save', async function(next) {

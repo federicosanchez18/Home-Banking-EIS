@@ -4,12 +4,11 @@
         <h1 id = "app">Cargar Servicio</h1>
         <ul>
             <label>Nombre del servicio a pagar</label>
-            <b-form-input v-model="name" placeholder="Ingrese el nombre del servicio"></b-form-input>
+            <b-form-input v-model="service.name" placeholder="Ingrese el nombre del servicio"></b-form-input>
             <label>Descripcion del servicio</label>
-            <b-form-input v-model="description" placeholder="Ingrese descripcion del servicio"></b-form-input>
-            
+            <b-form-input v-model="service.description" placeholder="Ingrese descripcion del servicio"></b-form-input>
             <label>Monto a abonar</label>
-            <b-form-input v-model="amount" placeholder="Ingrese monto a abonar"></b-form-input>
+            <b-form-input v-model="service.amount" placeholder="Ingrese monto a abonar"></b-form-input>
         </ul>
         <button type="button" v-on:click="createServices()">Confirmar</button>
         <button type="button" v-on:click="goBack()">Volver</button>
@@ -18,27 +17,26 @@
 </template>
 
 <script>
+class Service {
+    constructor(name, description, amount) {
+        this.name = name;
+        this.description = description;
+        this.amount = amount;
+    }
+}
 export default {
   name: 'CreateServices',
   data () {
     return {
-      paymentCode: 0,
-      name: '', 
-      amount: 0,
-      description: '',
-      payServices: false
+      service : new Service()
     }
   },
   methods:{
     createServices() {
-      this.axios.post('http://localhost:3060/services/create/' + this.$route.params.id, {paymentCode: this.paymentCode, name: this.name, amount: this.amount, description: this.description, payServices: this.payServices})
+      this.axios.post('http://localhost:3060/services/create/' + this.$route.params.id, this.service)
            .then(res => {
-                        this.$route.params.paymentCode= res.data.paymentCode;
-                        this.$route.params.name= res.data.name;
-                        this.$route.params.amount= res.data.amount;
-                        this.$route.params.description= res.data.description;
-                        this.$route.params.payServices= res.data.payServices;
-                        this.$router.push({ name: 'HomeBanking', params: { ...this.$route.params}});})
+                        this.$route.params.services= res.data.services;                      
+                        this.$router.push({ name: 'PayService', params: { ...this.$route.params}});})
            .catch(err => alert(err.response.data.message));
     },
     goBack () {

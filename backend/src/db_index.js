@@ -27,9 +27,12 @@ function connect() {
                     if (!bot1 && !bot2) {
                         const userBot1 = new User({dni: 12345678, username: 'PabloSuarez', password: 'bot1234', email: 'bot1@email.com'});
                         const userBot2 = new User({dni: 12345679, username: 'DiegoSanchez', password: 'bot1234', email: 'bot2@email.com'});
-                        const servicioBot1 = new Service({name: 'Directv', amount: 1499 , description: 'cable', payServices: false});
                         userBot1.save();
                         userBot2.save();
+                        
+                    }
+                    if (!servicio1){
+                        const servicioBot1 = new Service({name: 'Directv', amount: 1499 , description: 'cable', payServices: false});
                         servicioBot1.save();
                     }
                     if (err) return reject(err);
