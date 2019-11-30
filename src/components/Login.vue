@@ -7,14 +7,16 @@
       <b-form-input v-model="input.username" placeholder="Ingrese su usuario"></b-form-input>
       <label>Ingrese su Password</label>
       <b-form-input :type="passwordFieldType" v-model="input.password" placeholder="Ingrese su password"></b-form-input>
+      <div  id="showPassword">
       <button @click="switchVisibility" class="btn btn-secondary m-t-1">
-         Show/Hide Password
+        Mostrar Clave
       </button>
+      </div>
     </div>
       <div id= 'botoncito'>
       <b-button type="submit"  variant="primary" v-on:click="login()">Login</b-button>
       <b-button type="submit" variant="primary" v-on:click="userRegister()">Registrarse</b-button>
-      <b-button type="submit" variant="primary">Cambiar Clave</b-button>
+      <b-button type="submit" variant="primary" v-on:click="changePassword()">Cambiar Clave</b-button>
       </div>
     </div>
 
@@ -37,7 +39,7 @@ export default {
     login () {
       this.axios.post('http://localhost:3060/user/login', this.input)
            .then(res =>  this.$router.push({ name: 'HomeBanking', params: { ...res.data.loggedUser}}))
-           .catch(err => alert(err.response.data.message));
+           .catch(err => this.showAlertError());
     },
     userRegister () {
       this.$router.push({ name: 'Register' })
@@ -47,29 +49,33 @@ export default {
     },
     switchVisibility(){
       this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
-    }
+    },
+    showAlertError () {
+      {
+          this.$swal("Usuario o Contraseña incorrecto", "Verifique sus datos y vuelva a intentar", "error")
+      }
+      }
   }
 }
 </script>
-
 <style>
-
   body{
-
-      margin-right: 400px;
-      margin-left: 300px;
-      margin-top: 150px;
-
-
+    background-color: 	#F0FFF0	;
+    margin-right: 400px;
+    margin-left: 300px;
+    margin-top: 150px;
   }
   #labels{
-
     margin-right: 50px;
     margin-bottom: 50px;
   }
-
-#botoncito{
-  margin-top : 20 px;
-  margin-right: 20px;
-}
+  #botoncito{
+   margin-top : 20px;
+   margin-right: 20px;
+  }
+  #showPassword{
+   margin-top: 20px;
+  }
 </style>
+
+
