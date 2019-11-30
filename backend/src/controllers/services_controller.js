@@ -16,7 +16,7 @@ module.exports = class ServicesController {
             return res.send({services: services});
         }
         const options = {
-            uri: `http://localhost:3060/user/${req.params.id}`,
+            uri: `http://localhost:3060/user/services/${req.params.id}`,
             json: {services: services},
             method: 'PUT'
         }
@@ -35,11 +35,12 @@ module.exports = class ServicesController {
 
     static async getServicesToObjectId(req,res){
         try {
-            const services = await Services.findById({_id: req.params.objectId}).exec();
-            if (!services){
-                return ErrorHandler.handleError(res, new ErrorToFindServices);
+            const id = req.params.objectid;
+            const service = await Services.findOne({_id: id});
+            if (!service) {
+                return ErrorHandler.handleError(res, new ErrorToFindServices('services'));
             }
-            res.json({services});
+            res.send({services: services});            
         } catch (error) {
             return ErrorHandler.handleError(res, new ErrorValidation(error.message));
         }

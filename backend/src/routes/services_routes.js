@@ -5,7 +5,7 @@ const ServicesController = require('../controllers/services_controller');
 //POST
 router.route('/create/:id').post(ServicesController.createServicesAndSend);
 //GET
-router.route('/:objectId').get(ServicesController.getServicesToObjectId);
+router.route('/:objectid').get(ServicesController.getServicesToObjectId);
 //PUT
 router.route('/pay/:paymentCode').put(ServicesController.payServices);
 router.route('/:paymentCode').put(ServicesController.updateServices);
