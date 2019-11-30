@@ -23,17 +23,11 @@ function connect() {
                 .then(async (res, err) => {
                     const bot1 = await User.findOne({dni: 12345678});
                     const bot2 = await User.findOne({dni: 12345679});
-                    const servicio1 = await Service.findOne({paymentCode: 1000000000})
                     if (!bot1 && !bot2) {
                         const userBot1 = new User({dni: 12345678, username: 'PabloSuarez', password: 'bot1234', email: 'bot1@email.com'});
                         const userBot2 = new User({dni: 12345679, username: 'DiegoSanchez', password: 'bot1234', email: 'bot2@email.com'});
                         userBot1.save();
-                        userBot2.save();
-                        
-                    }
-                    if (!servicio1){
-                        const servicioBot1 = new Service({name: 'Directv', amount: 1499 , description: 'cable', payServices: false});
-                        servicioBot1.save();
+                        userBot2.save();  
                     }
                     if (err) return reject(err);
                     resolve();
