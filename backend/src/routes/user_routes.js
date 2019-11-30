@@ -7,6 +7,7 @@ router.route('/register').post(UserController.registerUser);
 router.route('/login').post(UserController.loginUser);
 //PUT
 router.route('/deposit/:id').put(UserController.toDepositAmount);
+router.route('/updateuser/:id').put(UserController.updateUser);
 router.route('/extraction/:id').put(UserController.toExtractAmount);
 router.route('/limit/:id').put(UserController.updateLimit);
 router.route('/transfer/:id').put(UserController.toTransfer);

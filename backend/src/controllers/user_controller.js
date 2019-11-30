@@ -39,8 +39,19 @@ module.exports = class UserController {
 
     static async updateUserServices(req, res) {
         try {
-            console.log(req.body);
             const user = await User.findOneAndUpdate({id: req.params.id}, {$addToSet: {services: {$each: [req.body.services]}}}, {new: true});
+            if (!user) {
+                return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
+            }
+            res.send({user});
+        } catch(error) {
+            return ErrorHandler.handleError(res, new ErrorValidation(error.message));
+        }
+    }
+
+    static async updateUser(req, res) {
+        try {
+            const user = await User.findOneAndUpdate({id: req.params.id}, {$set: req.body}, {new: true});
             if (!user) {
                 return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
             }
