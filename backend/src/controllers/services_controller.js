@@ -16,11 +16,7 @@ module.exports = class ServicesController {
             return res.send({services: services});
         }
         const options = {
-<<<<<<< HEAD
-            uri: `http://localhost:3060/user/updateuser/${req.params.id}`,
-=======
-            uri: `http://localhost:3060/user/services/${req.params.id}`,
->>>>>>> eb63f3842515cdcb3d7845df579b78b96f7b1853
+        uri: `http://localhost:3060/user/services/${req.params.id}`,
             json: {services: services},
             method: 'PUT'
         }
