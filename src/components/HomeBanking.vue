@@ -13,7 +13,7 @@
         <h1 class="tu-cuenta">Tu cuenta</h1>
         <button class="links" v-on:click="cashOut()" >Extraer dinero</button>
         <button class="links" v-on:click="deposit()">Depositar dinero</button>
-        <button class="links" >Pagar servicios</button>
+        <button class="links" v-on:click="payService()">Pagar servicios</button>
         <button class="links" v-on:click="transfer()">Transferir dinero</button>
         <button class="links" v-on:click="limit()">Cambiar límite de extracción</button>
         <button class="links" v-on:click="myCBU()">Ver mi CBU</button>
@@ -43,6 +43,9 @@ export default {
       transfer () {
         this.$router.push({ name: 'Transfer', params: {...this.$route.params} })
       },
+      payService () {
+        this.$router.push({ name: 'PayService', params: {...this.$route.params} })
+      },
       cashOut () {
         this.$router.push({ name: 'CashOut', params: {...this.$route.params} })
       },
@@ -61,7 +64,6 @@ export default {
 
     }
   }
-
 
 
 </script>

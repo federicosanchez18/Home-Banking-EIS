@@ -1,33 +1,36 @@
 <template>
   <div class="white-container">
     <div class="menu-container" id="transfer">
-        <h1 id = "app">Transfer</h1>
-        <ul>
-          <li><p>C.B.U.</p><input type="Number" v-model="cbu" placeholder="CBU"></li>
-          <li><label for="amount">Amount</label><input v-model="amount" type="Number" placeholder="Amount"></li>
-        </ul>
-        <button type="button" v-on:click="transfer()">Confirm</button>
-        <button type="button" v-on:click="goBack()">Go Back</button>
+        <h1 id = "app">Pagar Servicio</h1>
+       
+        <button type="button" v-on:click="createService()">Cargar Nuevo Servicio</button>
+        <button type="button" v-on:click="goBack()">Volver</button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Transfer',
+  name: 'PayService',
   data () {
     return {
-      cbu: 0,
+      paymentCode: 0,
       amount: 0
       }
   },
   methods:{
-    transfer() {
-      this.axios.put('http://localhost:3060/user/transfer/' + this.$route.params.id, {amount: this.amount, cbu: this.cbu})
-           .then(res => {this.$route.params.amount= res.data.amount;
-             this.$router.push({ name: 'HomeBanking', params: { ...this.$route.params}});})
-           .catch(err => alert(err.response.data.message));
+    createService() {
+        this.$router.push({ name: 'CreateServices', params: {...this.$route.params} })
     },
+    /*payServices() {
+      this.axios.put('http://localhost:3060/services/' + this.$route.params.id, {paymentCode: this.paymentCode, name: this.name, amount: this.amount, description: this.description})
+           .then(res => {this.$route.params.paymentCode= res.data.paymentCode;
+                        this.$route.params.name= res.data.name;
+                        this.$route.params.amount= res.data.amount;
+                        this.$route.params.description= res.data.description;
+                        this.$router.push({ name: 'HomeBanking', params: { ...this.$route.params}});})
+           .catch(err => alert(err.response.data.message));
+    },*/
     goBack () {
     this.$router.push({ name: 'HomeBanking', params: {...this.$route.params} })
     }

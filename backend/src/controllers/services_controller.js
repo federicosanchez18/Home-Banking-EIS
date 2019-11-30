@@ -9,6 +9,7 @@ module.exports = class ServicesController {
 
     static async createServices(req, res) {
         try {
+            console.log(req.body);
             const services = new Services(req.body);
             await services.save();
             res.send({createdServices: services});
