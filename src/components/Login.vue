@@ -52,7 +52,7 @@ export default {
     },
     showAlertError () {
       {
-          this.$swal("Usuario o Contraseña incorrecto", "Verifique sus datos y vuelva a intentar", "error")
+        this.$swal("Usuario o Contraseña incorrecto", "Verifique sus datos y vuelva a intentar", "error")
       }
       }
   }
