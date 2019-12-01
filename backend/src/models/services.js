@@ -11,16 +11,16 @@ const ServicesSchema = new Schema({
     },
     name: {
         type: String,
-        required: [true, 'The name is required']
+        required: [true, 'El nombre es requerido']
     },
     amount: {
         type: Number,
-        required: [true, 'The amount is required'],
+        required: [true, 'El monto es requerido'],
         min: 0
     },
     description: {
         type: String,
-        required: [true, 'Description is required']
+        required: [true, 'La descripción es requerida']
     },
     payServices: {
         type: Boolean,

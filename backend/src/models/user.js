@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
-require('mongoose-currency').loadType(mongoose);
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 const Bcrypt = require('bcryptjs');
 const { Schema } = mongoose;
-const Currency = mongoose.Types.Currency;  
 
 const UserSchema = new Schema({
     id: {
@@ -16,25 +14,25 @@ const UserSchema = new Schema({
         validate: [function(v) {
             return /(^([0-9]{8,8})|^)$/.test(v);
         }, 'Ingrese un DNI válido'],
-        required: [true, 'The DNI is required']
+        required: [true, 'El DNI es requerido']
     },
     username: {
         type: String,
-        required: [true, 'The username is required']
+        required: [true, 'El nombre de usuario es requerido']
     },
     password: {
         type: String,
-        required: [true, 'The password is required']
+        required: [true, 'La contraseña es requerida']
     },
     email: {
         type: String,
         validate: [function(v) {
             return /^[^@\s]+@[^@\.\s]+(\.[^@\.\s]+)+$/.test(v);
         }, 'Ingrese un email válido'],
-        required: [true, 'The email is required']
+        required: [true, 'El email es requerido']
     },
     amount: {
-        type: Currency,
+        type: Number,
         default: 0,
         min: 0
     },
