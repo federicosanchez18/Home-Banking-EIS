@@ -48,7 +48,7 @@ describe('API Rest', () => {
                 .send({ amount: 500, description: 'Cuota del mes de Noviembre' })
                 .then((res) => {
                     const body = res.body;
-                    expect(body.message).to.equal('Services validation failed: name: The name is required');
+                    expect(body.message).to.equal('Services validation failed: name: El nombre es requerido');
                     return done();
                 }).catch((err) => done(err));
         }).timeout(1000*60*20);
@@ -76,7 +76,7 @@ describe('API Rest', () => {
                 .send({ amount: 100 })
                 .then((res) => {
                     const body = res.body.message;
-                    expect(body).to.equal('This amount not enough');
+                    expect(body).to.equal('El monto no es suficiente');
                     return done();
                 }).catch((err) => done(err));
         }).timeout(1000*60*20);

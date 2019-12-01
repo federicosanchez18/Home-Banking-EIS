@@ -42,7 +42,7 @@ describe('API Rest', () => {
                 .send({ username: "Test", password: "asd1234", email: "test@email.com" })
                 .then((res) => {
                     const body = res.body;
-                    expect(body.message).to.equal('User validation failed: dni: The DNI is required');
+                    expect(body.message).to.equal('User validation failed: dni: El DNI es requerido');
                     return done();
                 }).catch((err) => done(err));
         }).timeout(1000*60*20);
@@ -78,7 +78,7 @@ describe('API Rest', () => {
                 .send({ amount: 500 })
                 .then((res) => {
                     const body = res.body;
-                    expect(body.message).to.equal('You have exceeded the extraction limit');
+                    expect(body.message).to.equal('Has superado el límite de extracción, vuelve a intentar con un monto menor');
                     return done();
                 }).catch((err) => done(err));
         }).timeout(1000*60*20);
@@ -129,7 +129,7 @@ describe('API Rest', () => {
                 .send({ email: "login@email.com", password: "asd1234" })
                 .then((res) => {
                     const body = res.body;
-                    expect(body.message).to.equal('This password is invalid');
+                    expect(body.message).to.equal('La contraseña es inválida, por favor introduzca una contraseña correcta');
                     return done();
                 }).catch((err) => done(err));
         }).timeout(1000*60*20);
