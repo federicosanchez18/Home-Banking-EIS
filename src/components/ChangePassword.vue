@@ -3,11 +3,11 @@
         <h1>Cambie su clave</h1>
         <div id="labels">
             <label>Ingrese su Usuario</label>
-            <b-form-input v-model="input.username" placeholder="Ingrese su usuario"></b-form-input>
+          <b-form-input v-model="input.username" placeholder="Ingrese su usuario"/>
             <label>Ingrese su Clave</label>
-            <b-form-input :type="passwordFieldType" v-model="input.password" placeholder="Ingrese su password"></b-form-input>
+          <b-form-input :type="passwordFieldType" v-model="input.password" placeholder="Ingrese su password"/>
           <label>Ingrese su nueva Clave</label>
-          <b-form-input :type="passwordFieldType" v-model="input.newPassword" placeholder="Ingrese su nueva password"></b-form-input>
+          <b-form-input :type="passwordFieldType" v-model="input.newPassword" placeholder="Ingrese su nueva password"/>
         </div>
         <div  id="showPassword">
             <button @click="switchVisibility" class="btn btn-secondary m-t-1">
@@ -16,6 +16,7 @@
         </div>
       <b-button type="submit"  variant="primary" v-on:click="changePassword()">Cambiar Clave</b-button>
       <b-button type="submit"  variant="primary" v-on:click="goBack()">Volver al inicio</b-button>
+
     </div>
 </template>
 
@@ -28,7 +29,8 @@ export default {
         username: '',
         password: '',
         newPassword: ''
-        }
+        },
+      passwordFieldType: 'password'
       }
     },
     methods: {
@@ -42,7 +44,7 @@ export default {
           },
             this.axios.put('http://localhost:3060/user/updateuser/:id', user)
               .then(res => this.goBack())
-              .catch(err => this.showAlertError());
+              .catch(err => this.showAlertError())
         }
         else{
               this.showErrorValidation()
