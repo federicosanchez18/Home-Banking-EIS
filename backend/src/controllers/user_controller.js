@@ -6,6 +6,9 @@ const ErrorPasswordInvalid = require('../errors_response/error_password_invalid'
 const ErrorValidation = require('../errors_response/error_validation');
 const ErrorAmountDontBeNegative = require('../errors_response/error_amount_dont_be_negative');
 const ErrorSuperateToLimit = require('../errors_response/error_superate_to_limit');
+const ErrorIsNotNumber = require('../errors_response/error_is_not_number');
+const ErrorDepositNegative = require('../errors_response/error_to_deposit_negative_amount');
+
 
 module.exports = class UserController {
 
@@ -75,7 +78,14 @@ module.exports = class UserController {
     
     static async toDepositAmount(req, res) {
         try {
-            const user = await User.findOneAndUpdate({id: req.params.id}, {$inc: {amount: +req.body.amount}}, {new: true});
+            const amount = req.body.amount;
+            if (!Number.isInteger(amount)){
+                return ErrorHandler.handleError(res, new ErrorIsNotNumber('monto'));
+            }
+            if (amount < 0){
+                return ErrorHandler.handleError(res, new ErrorDepositNegative());
+            }
+            const user = await User.findOneAndUpdate({id: req.params.id}, {$inc: {amount: +amount}}, {new: true});
             if (!user) {
                 return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
             }
@@ -87,6 +97,10 @@ module.exports = class UserController {
 
     static async toExtractAmount(req, res) {
         try {
+            const amount = req.body.amount;
+            if (!Number.isInteger(amount)){
+                return ErrorHandler.handleError(res, new ErrorIsNotNumber('monto'));
+            }
             const user = await User.findOne({id: req.params.id});
             if (!user) {
                 return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
@@ -97,7 +111,7 @@ module.exports = class UserController {
             } if (result < 0) {
                 return ErrorHandler.handleError(res, new ErrorAmountDontBeNegative());
             } else {
-                const userUp = await User.findOneAndUpdate({id: req.params.id}, {$inc: {amount: -req.body.amount}}, {new: true});
+                const userUp = await User.findOneAndUpdate({id: req.params.id}, {$inc: {amount: -amount}}, {new: true});
                 res.send(userUp);
             }
         } catch (error) {
@@ -107,7 +121,11 @@ module.exports = class UserController {
 
     static async updateLimit(req, res) {
         try {
-            const user = await User.findOneAndUpdate({id: req.params.id}, {limit: req.body.limit}, {new: true});
+            const limit = req.body.limit;
+            if (!Number.isInteger(limit)){
+                return ErrorHandler.handleError(res, new ErrorIsNotNumber('limite'));
+            }
+            const user = await User.findOneAndUpdate({id: req.params.id}, {limit: limit}, {new: true});
             if (!user) {
                 return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
             }
@@ -131,6 +149,10 @@ module.exports = class UserController {
 
     static async toTransfer(req, res) {
         try {
+            const amount = req.body.amount;
+            if (!Number.isInteger(amount)){
+                return ErrorHandler.handleError(res, new ErrorIsNotNumber('monto'));
+            }
             const user = await User.findOne({id: req.params.id});
             if (!user) {
                 return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
@@ -140,8 +162,8 @@ module.exports = class UserController {
             if (result < 0) {
                 return ErrorHandler.handleError(res, new ErrorAmountDontBeNegative());
             }
-            const userUp = await User.findOneAndUpdate({id: req.params.id}, {$inc: {amount: -req.body.amount}}, {new: true});
-            const us = await User.findOneAndUpdate({cbu: req.body.cbu}, {$inc: {amount: +req.body.amount}}, {new: true});
+            const userUp = await User.findOneAndUpdate({id: req.params.id}, {$inc: {amount: -amount}}, {new: true});
+            const us = await User.findOneAndUpdate({cbu: req.body.cbu}, {$inc: {amount: +amount}}, {new: true});
             res.send(userUp);
         } catch (error) {
             return ErrorHandler.handleError(res, new ErrorValidation(error.message));
