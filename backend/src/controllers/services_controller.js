@@ -46,6 +46,19 @@ module.exports = class ServicesController {
         }
     }
 
+    static async getServicesToObjectId(req,res){
+        try {
+            const objectId = req.params.objectId;
+            const service = await Services.findOne({_id: objectId});
+            if (!service) {
+                return ErrorHandler.handleError(res, new ErrorToFindServices('services'));
+            }
+            res.send({services: service});            
+        } catch (error) {
+            return ErrorHandler.handleError(res, new ErrorValidation(error.message));
+        }
+    }
+
     static async payServices(req, res) {
         try {
             const paymentCode = req.params.paymentCode;

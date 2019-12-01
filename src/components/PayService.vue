@@ -3,8 +3,11 @@
     <div class="menu-container" id="transfer">
         <h1 id = "app">Pagar Servicio</h1>
           <button :disabled="disable" @click="isDisable" class= "btn btn-primary btn-block" type="button" v-on:click="showService()">Ver Servicios</button>
+          <b-table responsive striped hover :service="service" :fields="fields"></b-table>
           <tr class="description"> Nombre Descripcion Monto Código de pago</tr>
-          <div v-for="s in service" v-bind:key="s.name">{{ s.name }} {{ s.description }} {{ s.amount }} {{ s.paymentCode }}</div>
+          <div v-for="s in service" v-bind:key="s.name">{{ s.name }} {{ s.description }} {{ s.amount }} {{ s.paymentCode }}
+            
+          </div>
         
         <li><label for="paymentCode"></label><input v-model="paymentCode" placeholder="Codigo de pago"></li>
         
@@ -23,7 +26,8 @@ export default {
       paymentCode: 0,
       amount: 0,
       service: [],
-      disable: false 
+      disable: false,
+      fields: ['Nombre', 'Descripción', 'Monto', 'Código de Pago', 'Está Pago']
       }
   },
   methods:{
@@ -38,15 +42,25 @@ export default {
            .catch(err => alert(err.response.data.message));
     },
     getService(paymentCode){
-      this.axios.get('http://localhost:3060/services/' + paymentCode)
+      this.axios.get('http://localhost:3060/services/paymentcode/' + paymentCode)
            .then(res => {  
              this.service.push(res.data.services)     })           
            .catch(err => alert(err.response.data.message));
     },
     showService(){
         this.$route.params.services.forEach(service => {
-        this.getService(service.paymentCode)
+          if(service.paymentCode){
+            this.getService(service.paymentCode);
+          } else {
+            this.getServiceOI(service);
+          }
         });
+    },
+    getServiceOI(objectId){
+      this.axios.get('http://localhost:3060/services/' + objectId)
+           .then(res => {  
+             this.service.push(res.data.services)     })           
+           .catch(err => alert(err.response.data.message));
     },
     isDisable(){
       this.disable = !(this.disable === true);
