@@ -1,13 +1,16 @@
 <template>
-  <div class="white-container">
+  <div id="container">
     <div class="menu-container" id="transfer">
-        <h1 id = "app">Transfer</h1>
-        <ul>
-          <li><p>C.B.U.</p><input type="Number" v-model="cbu" placeholder="CBU"></li>
-          <li><label for="amount">Amount</label><input v-model="amount" type="Number" placeholder="Amount"></li>
-        </ul>
-        <button type="button" v-on:click="transfer()">Confirm</button>
-        <button type="button" v-on:click="goBack()">Go Back</button>
+      <h1 id = "app">Trasferir Dinero</h1>
+
+      <label>¿Cuanto dinero quiere trasferir?</label>
+      <p>C.B.U.</p><input type="Number" v-model="cbu" placeholder="CBU">
+      <label for="amount">Dinero</label><input type="number" v-model="amount" placeholder="Amount">
+
+      <div id="boton2">
+        <button type="button" v-on:click="transfer()" class="btn btn-success">Extraer Dinero</button>
+        <button type="button" v-on:click="goBack" class="btn btn-success">Volver al Menu</button>
+      </div>
     </div>
   </div>
 </template>
@@ -26,58 +29,54 @@ export default {
       this.axios.put('http://localhost:3060/user/transfer/' + this.$route.params.id, {amount: this.amount, cbu: this.cbu})
            .then(res => {this.$route.params.amount= res.data.amount;
              this.$router.push({ name: 'HomeBanking', params: { ...this.$route.params}});})
-           .catch(err => alert(err.response.data.message));
+           .catch(err => this.showErrorAlert(err));
     },
     goBack () {
     this.$router.push({ name: 'HomeBanking', params: {...this.$route.params} })
+    },
+    showErrorAlert(err){
+      this.$swal((err.response.data.message),"","error")
     }
   }
 }
 </script>
 
 <style scoped>
-  #register {
-    width: 500px;
-    border: 1px solid #CCCCCC;
-    background-color: #2cc197;
-    margin: auto;
+
+  #boton2{
+    height: 150px;
+    margin: 15px 15px 15px 20px;
+  }
+
+  h1{
+    width: 300px;
+    margin-left: 100px;
+  }
+  input{
+    margin-left: 90px;
+  }
+  #container{
     margin-top: 200px;
-    padding: 20px;
+    margin-left: 250px;
+    border-style : groove;
+    width: 500px;
+    background-color: #fbffea;
   }
-
-  .white-container {
-    display: flex;
-    width: 65%;
-    padding: 30px;
-    margin: 0 auto;
-    box-sizing: border-box;
-
-    border: 1px solid #979797;
-    border-radius: 8px;
-    background-color: #fff;
-
-    justify-content: center;
+  p{
+    margin-left: 100px;
+    font-weight: bold;
   }
-
-  .menu-container {
-    display: block;
-    width: 35%;
-    padding-right: 10px;
+  label{
+    margin-top: 20px;
+    margin-bottom: 15px;
+    font-weight : bold;
+    margin-left: 80px;
+    width: 250px;
   }
-
-  .links {
-    position: relative;
-
-    display: block;
-    padding: 0;
-    margin: 20px 0;
-    margin-bottom: 30px;
-
-    font-family: "Source Sans Pro";
-    font-size: 16px;
-
-    color: #666;
-    border: 0;
-    background-color: transparent;
+  .btn{
+    margin-top: 15px;
+    margin-bottom: 5px;
+    width: 200px;
+    margin-left: 60px;
   }
 </style>

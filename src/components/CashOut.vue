@@ -6,7 +6,7 @@
          <label>¿Cuanto dinero quiere extraer?</label>
         <input v-model="amount" placeholder="Amount">
 
-      <div id="boton">
+      <div id="boton2">
         <button type="button" v-on:click="cashOut()" class="btn btn-success">Extraer Dinero</button>
         <button type="button" v-on:click="goBack" class="btn btn-success">Volver al Menu</button>
       </div>
@@ -42,7 +42,7 @@ export default {
 </script>
 
 <style>
-  #boton{
+  #boton2{
     margin: 15px;
     height: 150px;
     margin-left: 40px;
