@@ -8,7 +8,7 @@
       <ul>
         <label for="amount">Limite</label><input v-model='limit' placeholder="Amount">
       </ul>
-      <div id="boton">
+      <div id="boton2">
         <button type="button" v-on:click="changeLimit()" class="btn btn-success">Cambiar limite de extraccion</button>
         <button type="button" v-on:click="goBack" class="btn btn-success">Volver al Menu</button>
       </div>
@@ -43,7 +43,7 @@ export default {
 </script>
 
 <style>
-  #boton{
+  #boton2{
     margin: 15px;
     height: 150px;
     margin-left: 40px;

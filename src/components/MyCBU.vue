@@ -4,7 +4,7 @@
 
     <h1 id = "app">Numero de CBU</h1>
     <h3 id="cbu-cuenta"> Numero:  {{this.$route.params.cbu}}</h3>
-    <div id="boton">
+    <div id="boton2">
       <button type="button" v-on:click="goBack" class="btn btn-success">Volver al Menu</button>
     </div>
   </div>
@@ -23,7 +23,7 @@ export default {
 
 <style scoped>
 
-  #boton{
+  #boton2{
     margin: 15px;
     height: 150px;
     margin-left: 40px;
