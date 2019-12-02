@@ -1,21 +1,28 @@
 <template>
-  <div class="white-container">
-    <div class="menu-container" id="transfer">
+<div class="HomeBanking">
+
+  <div class="header">
+    <div class="white-container">
+      <div class="menu-container" id="transfer">
         <h1 id = "app">Pagar Servicio</h1>
           <button :disabled="disable" @click="isDisable" class= "btn btn-primary btn-block" type="button" v-on:click="showService()">Ver Servicios</button>
           <b-table responsive striped hover :service="service" :fields="fields"></b-table>
-          <tr class="description"> Nombre Descripcion Monto Código de pago</tr>
+          
           <div v-for="s in service" v-bind:key="s.name">{{ s.name }} {{ s.description }} {{ s.amount }} {{ s.paymentCode }}
             
           </div>
         
         <li><label for="paymentCode"></label><input v-model="paymentCode" placeholder="Codigo de pago"></li>
         
-        <button type="button" v-on:click="payServices()">Pagar Servicio</button>
-        <button type="button" v-on:click="createService()">Cargar Nuevo Servicio</button>
-        <button type="button" v-on:click="goBack()">Volver</button>
+        <div id="boton">
+          <button type="button" v-on:click="payServices()">Pagar Servicio</button>
+          <button type="button" v-on:click="createService()">Cargar Nuevo Servicio</button>
+          <button type="button" v-on:click="goBack()">Volver</button>
+        </div>  
+      </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -133,5 +140,19 @@ export default {
     color: #666;
     border: 0;
     background-color: transparent;
+  }
+   .header {
+    display: flex;
+    width: 65%;
+    margin: 7% auto 0;
+    margin-bottom: 15px;
+
+    justify-content: space-between;
+  }
+
+  #boton{
+    margin: 15px;
+    height: 150px;
+    margin-left: 40px;
   }
 </style>
