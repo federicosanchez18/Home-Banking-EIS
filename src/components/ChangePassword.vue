@@ -5,9 +5,9 @@
             <label>Ingrese su Usuario</label>
           <b-form-input v-model="input.username" placeholder="Ingrese su usuario"/>
             <label>Ingrese su Clave</label>
-          <b-form-input :type="passwordFieldType" v-model="input.password" placeholder="Ingrese su password"/>
+          <b-form-input :type="passwordFieldType" v-model="oldPassword" placeholder="Ingrese su password"/>
           <label>Ingrese su nueva Clave</label>
-          <b-form-input :type="passwordFieldType" v-model="input.newPassword" placeholder="Ingrese su nueva password"/>
+          <b-form-input :type="passwordFieldType" v-model="input.password" placeholder="Ingrese su nueva password"/>
         </div>
         <div  id="showPassword">
             <button @click="switchVisibility" class="btn btn-secondary m-t-1">
@@ -15,7 +15,7 @@
             </button>
         </div>
       <b-button type="submit"  variant="primary" v-on:click="changePassword()">Cambiar Clave</b-button>
-      <b-button type="submit"  variant="primary" v-on:click="goBack()">Volver al inicio</b-button>
+      <b-button type="submit"  variant="primary" v-on:click="goBack()">Volver a HomeBanking</b-button>
 
     </div>
 </template>
@@ -27,31 +27,25 @@ export default {
     return {
       input: {
         username: '',
-        password: '',
-        newPassword: ''
+        password: ''
         },
+      oldPassword: '',  
       passwordFieldType: 'password'
       }
     },
     methods: {
       changePassword() {
-
-        if(this.input.username !="" && this.input.password !="" && this.input.newPassword !="") {
-
-          user = {
-            username: this.input.username,
-            password: this.input.newPassword
-          },
-            this.axios.put('http://localhost:3060/user/updateuser/:id', user)
-              .then(res => this.goBack())
-              .catch(err => this.showAlertError())
+        if(this.input.username !="" && this.input.password !="" && this.oldPassword !="" ) {
+            this.axios.put('http://localhost:3060/user/updateuser/' + this.$route.params.id, this.input)
+              .then(res =>  this.$router.push({ name: 'HomeBanking', params: { ...res.data.userupdated}}))
+              .catch(err => alert(err.response.data.message))
         }
         else{
               this.showErrorValidation()
         }
       },
       goBack (){
-        this.$router.replace({ name: 'Login' })
+        this.$router.replace({ name: 'HomeBanking', params: {...this.$route.params} })
       },
       switchVisibility(){
         this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';

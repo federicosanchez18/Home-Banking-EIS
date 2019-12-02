@@ -16,7 +16,6 @@
       <div id= 'botoncito'>
       <b-button type="submit"  variant="primary" v-on:click="login()">Login</b-button>
       <b-button type="submit" variant="primary" v-on:click="userRegister()">Registrarse</b-button>
-      <b-button type="submit" variant="primary" v-on:click="changePassword()">Cambiar Clave</b-button>
       </div>
     </div>
 
@@ -43,9 +42,6 @@ export default {
     },
     userRegister () {
       this.$router.push({ name: 'Register' })
-    },
-    changePassword() {
-     this.$router.push({name : 'changePassword'})
     },
     switchVisibility(){
       this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';

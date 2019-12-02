@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const rp = require('request-promise');
+const Bcrypt = require('bcryptjs');
 const ErrorHandler = require('../errors_response/error_handler');
 const ErrorToFindUser = require('../errors_response/error_to_find_user_or_services');
 const ErrorPasswordInvalid = require('../errors_response/error_password_invalid');
@@ -53,11 +54,12 @@ module.exports = class UserController {
 
     static async updateUser(req, res) {
         try {
+            req.body.password = await Bcrypt.hash(req.body.password, 10);
             const user = await User.findOneAndUpdate({id: req.params.id}, {$set: req.body}, {new: true});
             if (!user) {
                 return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
             }
-            res.send({user});
+            res.send({userupdated: user});
         } catch(error) {
             return ErrorHandler.handleError(res, new ErrorValidation(error.message));
         }

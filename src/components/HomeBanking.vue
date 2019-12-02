@@ -17,6 +17,7 @@
         <button class="links" v-on:click="transfer()">Transferir dinero</button>
         <button class="links" v-on:click="limit()">Cambiar límite de extracción</button>
         <button class="links" v-on:click="myCBU()">Ver mi CBU</button>
+        <button class="links" v-on:click="changePassword()">Cambiar Clave</button>
       </div>
       <div class="green-container">
         <div class="cuenta-info">
@@ -57,6 +58,9 @@ export default {
       },
       myCBU() {
         this.$router.push({ name: 'MyCBU', params: {...this.$route.params}})
+      },
+      changePassword() {
+        this.$router.push({name : 'changePassword', params: {...this.$route.params}})
       },
       closeSession(){
         this.$router.replace({name: 'Login'})
