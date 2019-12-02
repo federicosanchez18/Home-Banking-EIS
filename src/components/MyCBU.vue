@@ -3,7 +3,7 @@
 
 
     <h1 id = "app">Numero de CBU</h1>
-    <h3 id="cbu-cuenta">{{this.$route.params.cbu}}</h3>
+    <h3 id="cbu-cuenta"> Numero:  {{this.$route.params.cbu}}</h3>
     <div id="boton">
       <button type="button" v-on:click="goBack" class="btn btn-success">Volver al Menu</button>
     </div>
@@ -44,7 +44,7 @@ export default {
     background-color: #fbffea;
   }
   #cbu-cuenta{
-      margin-left: 150px;
+      margin-left: 115px;
       margin-top: 50px;
     font-weight: bold;
 
@@ -60,6 +60,7 @@ export default {
     margin-top: 15px;
     margin-bottom: 5px;
     width: 200px;
-    margin-left: 60px;
+    margin-left: 70px;
+    margin-left: 70px;
   }
 </style>
