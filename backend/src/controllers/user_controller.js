@@ -6,8 +6,7 @@ const ErrorPasswordInvalid = require('../errors_response/error_password_invalid'
 const ErrorValidation = require('../errors_response/error_validation');
 const ErrorAmountDontBeNegative = require('../errors_response/error_amount_dont_be_negative');
 const ErrorSuperateToLimit = require('../errors_response/error_superate_to_limit');
-const ErrorIsNotNumber = require('../errors_response/error_is_not_number');
-const ErrorDepositNegative = require('../errors_response/error_to_deposit_negative_amount');
+const ErrorToNumberNegative = require('../errors_response/error_to_number_negative');
 
 
 module.exports = class UserController {
@@ -79,11 +78,8 @@ module.exports = class UserController {
     static async toDepositAmount(req, res) {
         try {
             const amount = req.body.amount;
-            if (!Number.isInteger(amount)){
-                return ErrorHandler.handleError(res, new ErrorIsNotNumber('monto'));
-            }
             if (amount < 0){
-                return ErrorHandler.handleError(res, new ErrorDepositNegative());
+                return ErrorHandler.handleError(res, new ErrorToNumberNegative('monto'));
             }
             const user = await User.findOneAndUpdate({id: req.params.id}, {$inc: {amount: +amount}}, {new: true});
             if (!user) {
@@ -98,8 +94,8 @@ module.exports = class UserController {
     static async toExtractAmount(req, res) {
         try {
             const amount = req.body.amount;
-            if (!Number.isInteger(amount)){
-                return ErrorHandler.handleError(res, new ErrorIsNotNumber('monto'));
+            if (amount < 0){
+                return ErrorHandler.handleError(res, new ErrorToNumberNegative('monto'));
             }
             const user = await User.findOne({id: req.params.id});
             if (!user) {
@@ -109,7 +105,7 @@ module.exports = class UserController {
             if (req.body.amount > user.limit) {
                 return ErrorHandler.handleError(res, new ErrorSuperateToLimit());
             } if (result < 0) {
-                return ErrorHandler.handleError(res, new ErrorAmountDontBeNegative());
+                return ErrorHandler.handleError(res, new ErrorAmountDontBeNegative('extracción'));
             } else {
                 const userUp = await User.findOneAndUpdate({id: req.params.id}, {$inc: {amount: -amount}}, {new: true});
                 res.send(userUp);
@@ -122,8 +118,8 @@ module.exports = class UserController {
     static async updateLimit(req, res) {
         try {
             const limit = req.body.limit;
-            if (!Number.isInteger(limit)){
-                return ErrorHandler.handleError(res, new ErrorIsNotNumber('limite'));
+            if (limit < 0){
+                return ErrorHandler.handleError(res, new ErrorToNumberNegative('limit'));
             }
             const user = await User.findOneAndUpdate({id: req.params.id}, {limit: limit}, {new: true});
             if (!user) {
@@ -150,8 +146,8 @@ module.exports = class UserController {
     static async toTransfer(req, res) {
         try {
             const amount = req.body.amount;
-            if (!Number.isInteger(amount)){
-                return ErrorHandler.handleError(res, new ErrorIsNotNumber('monto'));
+            if (amount < 0){
+                return ErrorHandler.handleError(res, new ErrorToNumberNegative('monto'));
             }
             const user = await User.findOne({id: req.params.id});
             if (!user) {
@@ -160,7 +156,7 @@ module.exports = class UserController {
             const result = user.amount - req.body.amount;
             console.log(result);
             if (result < 0) {
-                return ErrorHandler.handleError(res, new ErrorAmountDontBeNegative());
+                return ErrorHandler.handleError(res, new ErrorAmountDontBeNegative('transferencia'));
             }
             const userUp = await User.findOneAndUpdate({id: req.params.id}, {$inc: {amount: -amount}}, {new: true});
             const us = await User.findOneAndUpdate({cbu: req.body.cbu}, {$inc: {amount: +amount}}, {new: true});
