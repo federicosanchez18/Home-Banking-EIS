@@ -15,7 +15,7 @@
             </button>
         </div>
       <b-button type="submit"  variant="primary" v-on:click="changePassword()">Cambiar Clave</b-button>
-      <b-button type="submit"  variant="primary" v-on:click="goBack()">Volver a HomeBanking</b-button>
+      <b-button type="submit"  variant="primary" v-on:click="goBack()">Volver al Menu</b-button>
 
     </div>
 </template>

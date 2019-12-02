@@ -137,11 +137,11 @@ describe('API Rest', () => {
     
     describe('PUT /user/updateuser/1', () => {
        
-        it('Ok, update username Test to Update', (done) => {
+        it('Ok, update username Test to Update and new password', (done) => {
             request(app).put('/user/updateuser/1')
-                .send({ username: 'Update' })
+                .send({ username: 'Update' ,password: '1234asd' })
                 .then((res) => {
-                    const body = res.body.user;
+                    const body = res.body.userupdated;
                     expect(body).to.have.property('username').to.be.equal('Update');
                     return done();
                 }).catch((err) => done(err));
