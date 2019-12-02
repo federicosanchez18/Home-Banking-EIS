@@ -11,6 +11,7 @@
         <button type="button" v-on:click="goBack()">Go Back</button>
     </div>
   </div>
+
 </template>
 
 <script>

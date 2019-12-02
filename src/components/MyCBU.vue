@@ -1,15 +1,14 @@
 <template>
-  <div class="white-container">
-    <div class="menu-container" id="transfer">
-        <h1 id = "app">Mi CBU</h1>
-        <ul>
-          <li><p>C.B.U.</p></li>
-          <h3 id="cbu-cuenta">{{this.$route.params.cbu}}</h3>
-        </ul>
-        <button type="button" v-on:click="goBack()">Go Back</button>
+  <div class="container" id="container">
+
+
+    <h1 id = "app">Numero de CBU</h1>
+    <h3 id="cbu-cuenta">{{this.$route.params.cbu}}</h3>
+    <div id="boton">
+      <button type="button" v-on:click="goBack" class="btn btn-success">Volver al Menu</button>
     </div>
   </div>
-</template>
+ </template>
 
 <script>
 export default {
@@ -23,58 +22,44 @@ export default {
 </script>
 
 <style scoped>
-  #register {
-    width: 500px;
-    border: 1px solid #CCCCCC;
-    background-color: #2cc197;
-    margin: auto;
+
+  #boton{
+    margin: 15px;
+    height: 150px;
+    margin-left: 40px;
+  }
+
+  h1{
+    width: 300px;
+    margin-left: 100px;
+  }
+  input{
+    margin-left: 100px;
+  }
+  #container{
     margin-top: 200px;
-    padding: 20px;
+    margin-left: 350px;
+    border-style : groove;
+    width: 500px;
+    background-color: #fbffea;
   }
+  #cbu-cuenta{
+      margin-left: 150px;
+      margin-top: 50px;
+    font-weight: bold;
 
-  .white-container {
-    display: flex;
-    width: 65%;
-    padding: 30px;
-    margin: 0 auto;
-    box-sizing: border-box;
-
-    border: 1px solid #979797;
-    border-radius: 8px;
-    background-color: #fff;
-
-    justify-content: center;
   }
-
-  .menu-container {
-    display: block;
-    width: 35%;
-    padding-right: 10px;
+  label{
+    margin-top: 20px;
+    margin-bottom: 15px;
+    font-weight : bold;
+    margin-left: 90px;
+    width: 250px;
   }
-
-  .links {
-    position: relative;
-
-    display: block;
-    padding: 0;
-    margin: 20px 0;
-    margin-bottom: 30px;
-
-    font-family: "Source Sans Pro";
-    font-size: 16px;
-
-    color: #666;
-    border: 0;
-    background-color: transparent;
-  }
-  #cbu-cuenta {
-    margin-top: 5%;
-    margin-bottom: 5%;
-    overflow: hidden;
-
-    font-size: 2.5vw;
-
-    text-align: left;
-    text-overflow: ellipsis;
+  .btn{
+    margin-top: 15px;
+    margin-bottom: 5px;
+    width: 200px;
+    margin-left: 60px;
   }
 </style>
