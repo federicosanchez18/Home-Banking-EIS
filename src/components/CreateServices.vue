@@ -1,18 +1,22 @@
 <template>
+ <div id="container">
   <div class="white-container">
     <div class="menu-container" id="transfer">
         <h1 id = "app">Cargar Servicio</h1>
         <ul>
             <label>Nombre del servicio a pagar</label>
-            <b-form-input v-model="service.name" placeholder="Ingrese el nombre del servicio"></b-form-input>
+            <b-form-input class="col-md-6" v-model="service.name" placeholder="Ingrese el nombre del servicio"></b-form-input>
             <label>Descripcion del servicio</label>
-            <b-form-input v-model="service.description" placeholder="Ingrese descripcion del servicio"></b-form-input>
+            <b-form-input class="col-md-6" v-model="service.description" placeholder="Ingrese descripcion del servicio"></b-form-input>
             <label>Monto a abonar</label>
-            <b-form-input v-model="service.amount" type="number" placeholder="Ingrese monto a abonar"></b-form-input>
+            <b-form-input class="col-md-6" v-model="service.amount" type="number" placeholder="Ingrese monto a abonar"></b-form-input>
         </ul>
-        <button type="button" v-on:click="createServices()">Confirmar</button>
-        <button type="button" v-on:click="goBack()">Volver</button>
+        <div id="boton2">
+        <button type="button" v-on:click="createServices()" class="btn btn-success"> Confirmar</button>
+        <button type="button" v-on:click="goBack()" class="btn btn-success"> Volver</button>
+        </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -58,7 +62,7 @@ export default {
 
   .white-container {
     display: flex;
-    width: 65%;
+    width: 90%;
     padding: 30px;
     margin: 0 auto;
     box-sizing: border-box;
@@ -72,7 +76,7 @@ export default {
 
   .menu-container {
     display: block;
-    width: 35%;
+    width: 300%;
     padding-right: 10px;
   }
 
@@ -90,5 +94,19 @@ export default {
     color: #666;
     border: 0;
     background-color: transparent;
+  }
+
+  #boton2{
+    margin: 15px;
+    height: 150px;
+    margin-left: 40px;
+  }
+
+  #container{
+      margin-top: 250px;
+      margin-left: 250px;
+      border-style : groove;
+      width: 700px;
+      background-color: #fbffea;
   }
 </style>
