@@ -7,7 +7,7 @@
         <label for="amount">Amount</label><input type="number" v-model="amount" placeholder="Amount">
 
         <div id="boton2">
-          <button type="button" v-on:click="deposit()" class="btn btn-success">Extraer Dinero</button>
+          <button type="button" v-on:click="deposit()" class="btn btn-success">Depositar Dinero</button>
           <button type="button" v-on:click="goBack" class="btn btn-success">Volver al Menu</button>
         </div>
       </div>
