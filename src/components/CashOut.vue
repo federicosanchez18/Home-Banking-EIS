@@ -35,7 +35,7 @@ export default {
     },
 
     showErrorAlert(err){
-          this.$swal("El monto que desea extraer es superior a sus fondos", "Ingrese un valor valido", "error")
+          this.$swal(err.response.data.message, "Ingrese un valor valido", "error")
     }
 }
 }

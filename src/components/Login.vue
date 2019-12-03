@@ -38,7 +38,7 @@ export default {
     login () {
       this.axios.post('http://localhost:3060/user/login', this.input)
            .then(res =>  this.$router.push({ name: 'HomeBanking', params: { ...res.data.loggedUser}}))
-           .catch(err => this.showAlertError());
+           .catch(err => this.showAlertError(err));
     },
     userRegister () {
       this.$router.push({ name: 'Register' })
@@ -46,9 +46,9 @@ export default {
     switchVisibility(){
       this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
     },
-    showAlertError () {
+    showAlertError (err) {
       {
-        this.$swal("Usuario o Contraseña incorrecto", "Verifique sus datos y vuelva a intentar", "error")
+        this.$swal(err.response.data.message, "Verifique sus datos y vuelva a intentar", "error")
       }
       }
   }
