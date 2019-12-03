@@ -3,12 +3,8 @@ const rp = require('request-promise');
 const Bcrypt = require('bcryptjs');
 const ErrorHandler = require('../errors_response/error_handler');
 const ErrorToFindUser = require('../errors_response/error_to_find_user_or_services');
-const ErrorPasswordInvalid = require('../errors_response/error_password_invalid');
 const ErrorValidation = require('../errors_response/error_validation');
-const ErrorAmountDontBeNegative = require('../errors_response/error_amount_dont_be_negative');
-const ErrorSuperateToLimit = require('../errors_response/error_superate_to_limit');
-const ErrorToNumberNegative = require('../errors_response/error_to_number_negative');
-
+const ValidationHandler = require('../validations/validation_handler');
 
 module.exports = class UserController {
 
@@ -26,15 +22,10 @@ module.exports = class UserController {
         try {
             const username = req.body.username;
             const email = req.body.email;
+            const password = req.body.password;
             const user = await User.findOne({$or:[{username: username}, {email: email}]}).exec();
-            if(!user){
-                return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
-            }
-            if(!await user.comparePassword(req.body.password)){
-                return ErrorHandler.handleError(res, new ErrorPasswordInvalid());
-            } else {
-                res.send({message: `The user ${user.username} is login correctly`, loggedUser: user});
-            }
+            ValidationHandler.validationFindUser(user, res);
+            ValidationHandler.comparePasswordAndLogin(user, password, res);
         } catch(error) {
             return ErrorHandler.handleError(res, new ErrorValidation(error.message));
         }
@@ -42,10 +33,10 @@ module.exports = class UserController {
 
     static async updateUserServices(req, res) {
         try {
-            const user = await User.findOneAndUpdate({id: req.params.id}, {$addToSet: {services: {$each: [req.body.services]}}}, {new: true});
-            if (!user) {
-                return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
-            }
+            const id = req.params.id;
+            const services = req.body.services;
+            const user = await User.findOneAndUpdate({id: id}, {$addToSet: {services: {$each: [services]}}}, {new: true});
+            ValidationHandler.validationFindUser(user, res);
             res.send({user});
         } catch(error) {
             return ErrorHandler.handleError(res, new ErrorValidation(error.message));
@@ -54,11 +45,10 @@ module.exports = class UserController {
 
     static async updateUser(req, res) {
         try {
+            const id = req.params.id;
             req.body.password = await Bcrypt.hash(req.body.password, 10);
-            const user = await User.findOneAndUpdate({id: req.params.id}, {$set: req.body}, {new: true});
-            if (!user) {
-                return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
-            }
+            const user = await User.findOneAndUpdate({id: id}, {$set: req.body}, {new: true});
+            ValidationHandler.validationFindUser(user, res);
             res.send({userupdated: user});
         } catch(error) {
             return ErrorHandler.handleError(res, new ErrorValidation(error.message));
@@ -68,9 +58,7 @@ module.exports = class UserController {
     static async deleteUser(req, res){
         try {
             const user = await User.findOneAndDelete({id: req.params.id});
-            if (!user) {
-                return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
-            }
+            ValidationHandler.validationFindUser(user, res);
             res.json({message: `${user.dni} is deleted`});
         } catch(error) {
             return ErrorHandler.handleError(res, new ErrorValidation(error.message));
@@ -79,14 +67,11 @@ module.exports = class UserController {
     
     static async toDepositAmount(req, res) {
         try {
+            const id = req.params.id;
             const amount = req.body.amount;
-            if (amount < 0){
-                return ErrorHandler.handleError(res, new ErrorToNumberNegative('monto'));
-            }
-            const user = await User.findOneAndUpdate({id: req.params.id}, {$inc: {amount: +amount}}, {new: true});
-            if (!user) {
-                return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
-            }
+            ValidationHandler.validationOfAmountGreaterThanZero(amount, res);
+            const user = await User.findOneAndUpdate({id: id}, {$inc: {amount: +amount}}, {new: true});
+            ValidationHandler.validationFindUser(user, res);
             res.send(user);
         } catch (error) {
             return ErrorHandler.handleError(res, new ErrorValidation(error.message));
@@ -96,22 +81,11 @@ module.exports = class UserController {
     static async toExtractAmount(req, res) {
         try {
             const amount = req.body.amount;
-            if (amount < 0){
-                return ErrorHandler.handleError(res, new ErrorToNumberNegative('monto'));
-            }
-            const user = await User.findOne({id: req.params.id});
-            if (!user) {
-                return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
-            }
-            const result = user.amount - req.body.amount;
-            if (req.body.amount > user.limit) {
-                return ErrorHandler.handleError(res, new ErrorSuperateToLimit());
-            } if (result < 0) {
-                return ErrorHandler.handleError(res, new ErrorAmountDontBeNegative('extracción'));
-            } else {
-                const userUp = await User.findOneAndUpdate({id: req.params.id}, {$inc: {amount: -amount}}, {new: true});
-                res.send(userUp);
-            }
+            const id = req.params.id;
+            ValidationHandler.validationOfAmountGreaterThanZero(amount, res);
+            const user = await User.findOne({id: id});
+            ValidationHandler.validationFindUser(user, res);
+            ValidationHandler.validationLimitExtractAndOfResultGreaterThanZero(amount, user, id, res);
         } catch (error) {
             return ErrorHandler.handleError(res, new ErrorValidation(error.message));
         }
@@ -120,14 +94,8 @@ module.exports = class UserController {
     static async updateLimit(req, res) {
         try {
             const limit = req.body.limit;
-            if (limit < 0){
-                return ErrorHandler.handleError(res, new ErrorToNumberNegative('limit'));
-            }
-            const user = await User.findOneAndUpdate({id: req.params.id}, {limit: limit}, {new: true});
-            if (!user) {
-                return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
-            }
-            res.send(user);
+            const id = req.params.id;
+            ValidationHandler.validationOfLimitGreaterThanZero(limit, id, res);
         } catch (error) {
             return ErrorHandler.handleError(res, new ErrorValidation(error.message));
         }
@@ -136,9 +104,7 @@ module.exports = class UserController {
     static async getUserCBU(req, res) {
         try {
             const user = await User.findOne({id: req.params.id});
-            if (!user) {
-                return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
-            }
+            ValidationHandler.validationFindUser(user, res);
             res.send(user.cbu);
         } catch(error) {
             return ErrorHandler.handleError(res, new ErrorValidation(error.message));
@@ -148,21 +114,12 @@ module.exports = class UserController {
     static async toTransfer(req, res) {
         try {
             const amount = req.body.amount;
-            if (amount < 0){
-                return ErrorHandler.handleError(res, new ErrorToNumberNegative('monto'));
-            }
-            const user = await User.findOne({id: req.params.id});
-            if (!user) {
-                return ErrorHandler.handleError(res, new ErrorToFindUser('user'));
-            }
-            const result = user.amount - req.body.amount;
-            console.log(result);
-            if (result < 0) {
-                return ErrorHandler.handleError(res, new ErrorAmountDontBeNegative('transferencia'));
-            }
-            const userUp = await User.findOneAndUpdate({id: req.params.id}, {$inc: {amount: -amount}}, {new: true});
-            const us = await User.findOneAndUpdate({cbu: req.body.cbu}, {$inc: {amount: +amount}}, {new: true});
-            res.send(userUp);
+            const id = req.params.id;
+            const cbu = req.body.cbu;
+            ValidationHandler.validationOfAmountGreaterThanZero(amount, res);
+            const user = await User.findOne({id: id});
+            ValidationHandler.validationFindUser(user, res);
+            ValidationHandler.validationOfTheAmountToBeTransferred(amount, user.amount, id, cbu, res);
         } catch (error) {
             return ErrorHandler.handleError(res, new ErrorValidation(error.message));
         }
