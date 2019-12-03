@@ -129,7 +129,7 @@ describe('API Rest', () => {
                 .send({ email: "login@email.com", password: "asd1234" })
                 .then((res) => {
                     const body = res.body;
-                    expect(body.message).to.equal('La contraseña es inválida, por favor introduzca una contraseña correcta');
+                    expect(body.message).to.equal('La contraseña es inválida, por favor introduzca su contraseña correctamente');
                     return done();
                 }).catch((err) => done(err));
         }).timeout(1000*60*20);
